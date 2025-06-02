@@ -1,41 +1,51 @@
-document.getElementById('formLogin').addEventListener('submit', async function(event) {
-    event.preventDefault();
+// public/js/login.js
+document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.getElementById('formLogin');
+    const messageElement = document.getElementById('mensagemErro');
 
-    const email = document.getElementById('email').value.trim();
-    const senha = document.getElementById('senha').value.trim();
-    const mensagemErro = document.getElementById('mensagemErro');
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
 
-    if (email === '' || senha === '') {
-        mensagemErro.textContent = 'Por favor, preencha todos os campos.';
-        return;
-    }
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('senha').value;
 
-    try {
-        const response = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, senha })
-        });
+            try {
+                const response = await fetch('/api/auth/login', { // Rota do seu backend
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, senha })
+                });
 
-        const resultado = await response.json();
+                const data = await response.json();
 
-        if (resultado.sucesso) {
-            // Armazena as informações do usuário no localStorage
-            localStorage.setItem('usuario', JSON.stringify(resultado.usuario));
+                if (response.ok) {
+                    messageElement.style.color = 'green';
+                    messageElement.textContent = data.message;
+                    loginForm.reset(); // Limpa o formulário
 
-            // Redireciona de acordo com o tipo de usuário
-            if (resultado.usuario.tipoUsuario === 'cliente') {
-                window.location.href = '/html/painel_cliente.html';
-            } else if (resultado.usuario.tipoUsuario === 'gestor') {
-                window.location.href = '/html/painel_gestor.html';
+                    // Em uma aplicação real, você armazenaria o token de autenticação (se houver)
+                    // e redirecionaria o usuário com base no tipo de usuário.
+                    if (data.user.tipoUsuario === 'cliente') {
+                        setTimeout(() => {
+                            window.location.href = '/html/painel_cliente.html'; // Redireciona para o painel do cliente
+                        }, 1000);
+                    } else if (data.user.tipoUsuario === 'gestor') {
+                        setTimeout(() => {
+                            window.location.href = '/html/painel_gestor.html'; // Redireciona para o painel do gestor
+                        }, 1000);
+                    }
+                } else {
+                    messageElement.style.color = 'red';
+                    messageElement.textContent = data.message || 'Erro ao fazer login.';
+                }
+            } catch (error) {
+                console.error('Erro na requisição de login:', error);
+                messageElement.style.color = 'red';
+                messageElement.textContent = 'Erro ao conectar com o servidor.';
             }
-        } else {
-            mensagemErro.textContent = 'Email ou senha inválidos.';
-        }
-    } catch (erro) {
-        console.error('Erro ao tentar logar:', erro);
-        mensagemErro.textContent = 'Erro ao conectar com o servidor.';
+        });
     }
 });

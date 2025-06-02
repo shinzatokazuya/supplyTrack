@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Supply Track</title>
+    <link rel="stylesheet" href="../css/login.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Supply Track</h1>
+        <h1>Login</h1>
+
+        <form id="formLogin" method="POST" action="/auth/login">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" required>
+
+            <button type="submit">Entrar</button>
+
+            <p>Ainda não possui cadastro? <br>
+               <a href="cadastro.html">Faça seu cadastro aqui.</a>
+            </p>
+        </form>
+
+        <div id="mensagemErro" class="erro"></div>
+    </div>
+
+    <script src="../js/login.js"></script>
+</body>
+
+</html>

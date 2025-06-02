@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Analisar Solicitação</title>
+    <link rel="stylesheet" href="../css/analisar_solicitacao.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Analisar Solicitação</h1>
+        <h2>Itens da Devolução</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade</th>
+                    <th>Motivo</th>
+                </tr>
+            </thead>
+            <tbody id="listaItens">
+                <!-- Conteúdo via JS -->
+            </tbody>
+        </table>
+
+        <h2>Responder Cliente</h2>
+        <form id="formResposta">
+            <label for="resposta">Mensagem:</label>
+            <textarea id="resposta" rows="5" required></textarea>
+            <button type="submit">Enviar Resposta</button>
+        </form>
+    </div>
+    <script src="../js/analisar_solicitacao.js"></script>
+</body>
+</html>

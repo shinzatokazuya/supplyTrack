@@ -1,0 +1,1 @@
+console.log('Histórico de Devoluções carregado!');

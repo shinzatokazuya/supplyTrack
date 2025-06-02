@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel do Cliente</title>
+    <link rel="stylesheet" href="../css/painel_cliente.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo(a), Cliente</h1>
+        <button onclick="window.location.href='nova_devolucao.html'">Nova Solicitação de Devolução</button>
+
+        <h2>Minhas Devoluções</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                    <th>Detalhes</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaDevolucoes">
+                <!-- Conteúdo gerado via JS -->
+            </tbody>
+        </table>
+    </div>
+    <script src="../js/painel_cliente.js"></script>
+</body>
+</html>

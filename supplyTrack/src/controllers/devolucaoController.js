@@ -247,7 +247,6 @@ const devolucaoController = {
         });
     },
 
-    // NOVA FUNÇÃO: Atualizar status e mensagem de resposta da devolução
     updateDevolucaoStatus: (req, res) => {
         const { idDevolucao } = req.params;
         const { status, mensagemResposta, idUsuarioGestor } = req.body; // idUsuarioGestor é o ID do gestor logado
@@ -287,6 +286,6 @@ const devolucaoController = {
         });
     }
 };
-};
+
 
 module.exports = devolucaoController;

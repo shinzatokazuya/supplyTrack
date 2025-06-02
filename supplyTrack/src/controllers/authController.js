@@ -3,7 +3,7 @@ const db = require('../database/db');
 const bcrypt = require('bcryptjs');
 
 const authController = {
-    register: async (req, res) => {
+    cadastrarUsuario: async (req, res) => {
         const { nome, email, senha, tipoUsuario } = req.body;
 
         if (!nome || !email || !senha || !tipoUsuario) {

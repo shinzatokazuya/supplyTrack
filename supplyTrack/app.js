@@ -1,17 +1,27 @@
+// app.js
 const express = require('express');
-const path = require('path');
 const app = express();
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Rotas
+const bodyParser = require('body-parser');
 const authRoutes = require('./src/routes/authRoutes');
-app.use('/auth', authRoutes);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.static('public'));
+
+// Rotas da API
+app.use('/api/auth', authRoutes);
+// app.use('/api/clientes', clienteRoutes);
+// app.use('/api/gestores', gestorRoutes);
+
+// Rota principal para a página inicial
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/html/tela_inicial.html');
 });
 
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+    console.log(`Acesse: http://localhost:${PORT}`);
+});

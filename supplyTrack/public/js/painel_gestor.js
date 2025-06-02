@@ -1,10 +1,11 @@
 // public/js/painel_gestor.js
 document.addEventListener('DOMContentLoaded', async () => {
     const tabela = document.getElementById('tabelaDevolucoes');
-    const welcomeMessage = document.querySelector('.container h1'); // Seleciona o h1 para personalizar
+    const welcomeMessage = document.querySelector('.container h1');
 
-    // Tenta pegar o usuário do localStorage
     const usuarioString = localStorage.getItem('usuario');
+    console.log('Painel Gestor JS: Conteúdo de "usuario" no localStorage:', usuarioString); // Para depuração
+
     if (!usuarioString) {
         alert('Sessão expirada ou não iniciada. Faça login novamente.');
         window.location.href = '/html/login.html';
@@ -14,29 +15,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     let usuario;
     try {
         usuario = JSON.parse(usuarioString);
+        console.log('Painel Gestor JS: Usuário parseado:', usuario); // Para depuração
         if (welcomeMessage && usuario.nome) {
             welcomeMessage.textContent = `Bem-vindo(a), Gestor(a) ${usuario.nome}!`;
         }
     } catch (e) {
-        console.error('Erro ao parsear dados do usuário do localStorage:', e);
+        console.error('Painel Gestor JS: Erro ao parsear dados do usuário do localStorage:', e);
         alert('Erro nos dados da sessão. Faça login novamente.');
+        localStorage.removeItem('usuario');
         window.location.href = '/html/login.html';
         return;
     }
 
-    // Validação adicional do tipo de usuário
-    if (usuario.tipoUsuario !== 'gestor') {
-        alert('Acesso negado. Você não é um gestor.');
-        localStorage.removeItem('usuario'); // Limpa dados inválidos
+    if (usuario.tipoUsuario !== 'gestor') { // **MUDANÇA AQUI: VERIFICA 'gestor'**
+        alert('Acesso negado. Você não tem permissão para acessar este painel.');
+        localStorage.removeItem('usuario');
         window.location.href = '/html/login.html';
         return;
     }
 
+    // ... (restante do seu código para buscar devoluções do gestor)
     try {
-        // Rota para o backend para buscar todas as devoluções
         const response = await fetch('/api/gestor/devolucoes');
         if (!response.ok) {
-            throw new Error(`Erro HTTP: ${response.status} - ${response.statusText}`);
+            const errorData = await response.json();
+            throw new Error(errorData.message || `Erro HTTP: ${response.status} - ${response.statusText}`);
         }
         const devolucoes = await response.json();
 
@@ -60,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             tabela.appendChild(tr);
         });
     } catch (err) {
-        console.error('Erro ao carregar devoluções:', err);
+        console.error('Erro ao carregar devoluções do gestor:', err);
         tabela.innerHTML = '<tr><td colspan="4">Erro ao carregar as devoluções.</td></tr>';
     }
 });

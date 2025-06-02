@@ -4,39 +4,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     const welcomeMessage = document.querySelector('.container h1');
 
     const usuarioString = localStorage.getItem('usuario');
-    console.log('Painel Gestor JS: Conteúdo de "usuario" no localStorage:', usuarioString); // Para depuração
-
-    if (!usuarioString) {
-        alert('Sessão expirada ou não iniciada. Faça login novamente.');
+    // ... (suas validações de sessão e tipo de usuário)
+    if (!usuarioString || JSON.parse(usuarioString).tipoUsuario !== 'gestor') {
+        alert('Acesso negado. Faça login como gestor.');
         window.location.href = '/html/login.html';
         return;
     }
+    const usuario = JSON.parse(usuarioString);
+    if (welcomeMessage && usuario.nome) {
+        welcomeMessage.textContent = `Bem-vindo(a), Gestor(a) ${usuario.nome}!`;
+    }
 
-    let usuario;
+
     try {
-        usuario = JSON.parse(usuarioString);
-        console.log('Painel Gestor JS: Usuário parseado:', usuario); // Para depuração
-        if (welcomeMessage && usuario.nome) {
-            welcomeMessage.textContent = `Bem-vindo(a), Gestor(a) ${usuario.nome}!`;
-        }
-    } catch (e) {
-        console.error('Painel Gestor JS: Erro ao parsear dados do usuário do localStorage:', e);
-        alert('Erro nos dados da sessão. Faça login novamente.');
-        localStorage.removeItem('usuario');
-        window.location.href = '/html/login.html';
-        return;
-    }
-
-    if (usuario.tipoUsuario !== 'gestor') { // **MUDANÇA AQUI: VERIFICA 'gestor'**
-        alert('Acesso negado. Você não tem permissão para acessar este painel.');
-        localStorage.removeItem('usuario');
-        window.location.href = '/html/login.html';
-        return;
-    }
-
-    // ... (restante do seu código para buscar devoluções do gestor)
-    try {
-        const response = await fetch('/api/gestor/devolucoes');
+        const response = await fetch('/api/gestor/devolucoes'); // Busca todas as devoluções para o gestor
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.message || `Erro HTTP: ${response.status} - ${response.statusText}`);
@@ -48,6 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
+        tabela.innerHTML = ''; // Limpa a tabela antes de adicionar novos dados
         devolucoes.forEach(dev => {
             const tr = document.createElement('tr');
             tr.innerHTML = `

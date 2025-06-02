@@ -76,6 +76,10 @@ form.addEventListener('submit', async (e) => {
         return;
     }
 
+    console.log('Frontend: Preparando para enviar solicitação.'); // DEBUG 1
+    console.log('Frontend: idCliente a ser enviado:', usuario.idUsuario); // DEBUG 2
+    console.log('Frontend: Itens a serem enviados:', listaProdutos); // DEBUG 3
+
     try {
         const resposta = await fetch('/api/cliente/nova-devolucao', {
             method: 'POST',

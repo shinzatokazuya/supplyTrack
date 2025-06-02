@@ -18,14 +18,6 @@ const db = new sqlite3.Database(dbPath, (err) => {
                 tipoUsuario TEXT NOT NULL CHECK(tipoUsuario IN ('cliente', 'gestor'))
             );`);
 
-            // Tabela Produtos
-            db.run(`CREATE TABLE IF NOT EXISTS Produtos (
-                idProduto INTEGER PRIMARY KEY AUTOINCREMENT,
-                nomeProduto TEXT NOT NULL UNIQUE,
-                descricao TEXT,
-                preco REAL NOT NULL
-            );`);
-
             // Tabela Devolucoes (Cabeçalho da solicitação)
             db.run(`CREATE TABLE IF NOT EXISTS Devolucoes (
                 idDevolucao INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,26 +41,6 @@ const db = new sqlite3.Database(dbPath, (err) => {
                 FOREIGN KEY (idDevolucao) REFERENCES Devolucoes(idDevolucao),
                 FOREIGN KEY (idProduto) REFERENCES Produtos(idProduto)
             );`);
-
-            // Opcional: Inserir alguns produtos de exemplo se a tabela estiver vazia
-            db.get("SELECT COUNT(*) AS count FROM Produtos", (err, row) => {
-                if (err) {
-                    console.error("Erro ao verificar produtos:", err.message);
-                    return;
-                }
-                if (row.count === 0) {
-                    console.log("Inserindo produtos de exemplo...");
-                    const stmt = db.prepare(`INSERT INTO Produtos (nomeProduto, descricao, preco) VALUES (?, ?, ?);`);
-                    stmt.run('Nokia', 'Smartphone de última geração', 1110.00);
-                    stmt.run('Laptop Dell', 'Notebook para trabalho e estudo', 2900.99);
-                    stmt.run('Monitor LG', 'Monitor LED 24 polegadas', 800.00);
-                    stmt.run('Teclado Mecânico Razer', 'Teclado gamer RGB', 509.99);
-                    stmt.run('Mouse Ergonômico Logitech', 'Mouse sem fio confortável', 100.00);
-                    stmt.finalize(() => {
-                        console.log("Produtos de exemplo inseridos.");
-                    });
-                }
-            });
         });
     }
 });

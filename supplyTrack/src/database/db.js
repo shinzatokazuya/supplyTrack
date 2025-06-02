@@ -35,11 +35,11 @@ const db = new sqlite3.Database(dbPath, (err) => {
             db.run(`CREATE TABLE IF NOT EXISTS DevolucaoItens (
                 idItem INTEGER PRIMARY KEY AUTOINCREMENT,
                 idDevolucao INTEGER NOT NULL,
-                idProduto INTEGER NOT NULL,
+                nomeProduto TEXT NOT NULL,     
+                empresaFornecedora TEXT NOT NULL,
                 quantidade INTEGER NOT NULL,
                 motivo TEXT NOT NULL,
-                FOREIGN KEY (idDevolucao) REFERENCES Devolucoes(idDevolucao),
-                FOREIGN KEY (idProduto) REFERENCES Produtos(idProduto)
+                FOREIGN KEY (idDevolucao) REFERENCES Devolucoes(idDevolucao)
             );`);
         });
     }

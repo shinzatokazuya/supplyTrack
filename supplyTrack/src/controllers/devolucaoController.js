@@ -176,7 +176,7 @@ const devolucaoController = {
             }
             res.status(200).json(rows);
         });
-    }
+    },
 
     getDevolucaoById: (req, res) => {
         const { idDevolucao } = req.params;

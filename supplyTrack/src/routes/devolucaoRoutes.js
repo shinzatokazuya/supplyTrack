@@ -13,6 +13,6 @@ router.get('/historico/devolucoes', devolucaoController.getHistoricoDevolucoes);
 
 router.get('/devolucoes/:idDevolucao', devolucaoController.getDevolucaoById);
 
-router.get('/devolucoes/:idDevolucao/status', devolucaoController.updateDevolucaoStatus);
+router.put('/devolucoes/:idDevolucao/status', devolucaoController.updateDevolucaoStatus);
 
 module.exports = router;

@@ -147,11 +147,7 @@ const devolucaoController = {
             );
         });
     },
-
-    // A função getHistoricoDevolucoes também precisará ser ajustada se você quiser exibir nomeProduto e empresaFornecedora
-    // Você terá que fazer um JOIN com DevolucaoItens para puxar esses detalhes se for exibir uma lista consolidada.
-    // Para listar o histórico principal (sem detalhes de itens) ela já está OK.
-    // Mas se for ver a devolução individualmente, precisará de uma nova rota/função para "detalhes da devolução".
+    
     getHistoricoDevolucoes: (req, res) => {
         const sql = `
             SELECT

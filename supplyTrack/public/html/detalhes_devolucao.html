@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes da Devolução</title>
+    <link rel="stylesheet" href="../css/detalhes_devolucao.css"> </head>
+<body>
+    <div class="container">
+        <h1>Detalhes da Devolução</h1>
+
+        <div class="devolucao-info">
+            <p><strong>Número da Solicitação:</strong> <span id="idDevolucaoExibido"></span></p>
+            <p><strong>Data da Solicitação:</strong> <span id="dataSolicitacao"></span></p>
+            <p><strong>Status:</strong> <span id="statusDevolucao"></span></p>
+            <p><strong>Respondido por:</strong> <span id="nomeGestor"></span></p>
+            <p><strong>Data da Resposta:</strong> <span id="dataResposta"></span></p>
+        </div>
+
+        <h2>Itens da Devolução</h2>
+        <p id="mensagemErro" style="color: red;"></p> <table>
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Empresa</th>
+                    <th>Quantidade</th>
+                    <th>Motivo</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaItensDevolucao">
+                <tr><td colspan="4">Carregando itens...</td></tr>
+            </tbody>
+        </table>
+
+        <h2>Resposta do Gestor</h2>
+        <div id="divMensagemResposta">
+            <p id="mensagemResposta">Nenhuma resposta do gestor ainda.</p>
+        </div>
+
+        <button onclick="window.location.href='/html/painel_cliente.html'">Voltar para o Painel</button>
+    </div>
+    <script src="../js/detalhes_devolucao.js"></script> </body>
+</html>

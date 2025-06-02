@@ -1,41 +1,52 @@
-document.getElementById('formLogin').addEventListener('submit', async function(event) {
-    event.preventDefault();
+// public/js/login.js
+document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.getElementById('formLogin'); // Assumindo que você tem um form com id loginForm
+    const messageElement = document.getElementById('mensagemErro'); // Um elemento para exibir mensagens
 
-    const email = document.getElementById('email').value.trim();
-    const senha = document.getElementById('senha').value.trim();
-    const mensagemErro = document.getElementById('mensagemErro');
+    loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-    if (email === '' || senha === '') {
-        mensagemErro.textContent = 'Por favor, preencha todos os campos.';
-        return;
-    }
+        const email = document.getElementById('loginEmail').value;
+        const senha = document.getElementById('loginSenha').value; // Alterado para 'loginSenha' ou o ID do seu campo de senha
 
-    try {
-        const response = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, senha })
-        });
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, senha }) // Envia 'senha'
+            });
 
-        const resultado = await response.json();
+            const data = await response.json();
 
-        if (resultado.sucesso) {
-            // Armazena as informações do usuário no localStorage
-            localStorage.setItem('usuario', JSON.stringify(resultado.usuario));
+            if (response.ok) {
+                messageElement.style.color = 'green';
+                messageElement.textContent = data.message;
 
-            // Redireciona de acordo com o tipo de usuário
-            if (resultado.usuario.tipoUsuario === 'cliente') {
-                window.location.href = '/html/painel_cliente.html';
-            } else if (resultado.usuario.tipoUsuario === 'gestor') {
-                window.location.href = '/html/painel_gestor.html';
+                // >>> SALVAR O TOKEN E TIPO DE USUÁRIO AQUI <<<
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('tipoUsuario', data.user.tipoUsuario); // Armazene para facilitar o redirecionamento
+
+                console.log("Login bem-sucedido. Token e tipo de usuário salvos.");
+                console.log("Tipo de usuário salvo:", data.user.tipoUsuario);
+                console.log("Login bem-sucedido. Token salvo no localStorage:", data.token);
+
+                // Redirecionar com base na tipoUsuario
+                if (data.user.tipoUsuario === 'cliente') { // Acesso a data.user.tipoUsuario
+                    window.location.href = '/html/painel_cliente.html';
+                } else if (data.user.tipoUsuario === 'gestor') {
+                    window.location.href = '/html/painel_gestor.html';
+                }
+
+            } else {
+                messageElement.style.color = 'red';
+                messageElement.textContent = data.message || 'Erro no login.';
             }
-        } else {
-            mensagemErro.textContent = 'Email ou senha inválidos.';
+        } catch (error) {
+            console.error('Erro ao enviar dados de login:', error);
+            messageElement.style.color = 'red';
+            messageElement.textContent = 'Erro ao conectar com o servidor.';
         }
-    } catch (erro) {
-        console.error('Erro ao tentar logar:', erro);
-        mensagemErro.textContent = 'Erro ao conectar com o servidor.';
-    }
+    });
 });

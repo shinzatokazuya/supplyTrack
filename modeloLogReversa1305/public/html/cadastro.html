@@ -99,22 +99,7 @@
     <div id="mensagemErro" class="erro"></div>
 </div>
 
-<script>
-document.getElementById("formCadastro").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const formData = new FormData(e.target);
-  const data = Object.fromEntries(formData.entries());
-
-  const res = await fetch("/auth/cadastro", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-
-  const resultado = await res.json();
-  alert(resultado.mensagem);
-});
-</script>
+<script src="../js/cadastro.js"></script>
 
 </body>
 </html>

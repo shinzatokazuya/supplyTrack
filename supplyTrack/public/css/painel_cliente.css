@@ -69,11 +69,10 @@ th, td {
     padding: 12px 10px;
     border: 1px solid #ddd;
     text-align: center;
-    backgroud-color: #115740;
 }
 
 th {
-    background-color: #4285F4;
+    background-color: #115740;
     color: white;
 }
 

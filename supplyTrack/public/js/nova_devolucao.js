@@ -70,7 +70,7 @@ form.addEventListener('submit', async (e) => {
     }
 
     const usuario = JSON.parse(localStorage.getItem('usuario'));
-    if (!usuario) {
+    if (!usuario || !usuario.idUsuario) {
         alert('Usuário não autenticado. Faça login novamente.');
         window.location.href = '/html/login.html';
         return;

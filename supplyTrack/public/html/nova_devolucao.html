@@ -9,21 +9,23 @@
     <div class="container">
         <h1>Nova Solicitação de Devolução</h1>
         <form id="formNovaDevolucao">
-            <label for="produto">Produto:</label>
-            <select id="produto">
-                <option value="">Selecione</option>
-            </select>
+            <label for="nomeProduto">Nome do Produto:</label>
+            <input type="text" id="nomeProduto" required>
+
+            <label for="empresaFornecedora">Empresa Fornecedora:</label>
+            <input type="text" id="empresaFornecedora" required>
 
             <label for="quantidade">Quantidade:</label>
-            <input type="number" id="quantidade" min="1">
+            <input type="number" id="quantidade" min="1" value="1" required>
 
-            <label for="motivo">Motivo:</label>
-            <textarea id="motivo" rows="3"></textarea>
+            <label for="motivo">Motivo da Devolução:</label>
+            <textarea id="motivo" rows="3" required></textarea>
 
             <button type="button" onclick="adicionarItem()">Adicionar Produto</button>
 
-            <h2>Itens Adicionados</h2>
-            <ul id="listaProdutos"></ul>
+            <h2>Itens Adicionados para Devolução</h2>
+            <ul id="listaProdutos">
+                </ul>
 
             <button type="submit">Enviar Solicitação</button>
         </form>

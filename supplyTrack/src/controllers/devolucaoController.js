@@ -147,7 +147,7 @@ const devolucaoController = {
             );
         });
     },
-    
+
     getHistoricoDevolucoes: (req, res) => {
         const sql = `
             SELECT
@@ -284,5 +284,6 @@ const devolucaoController = {
         });
     }
 };
+}
 
 module.exports = devolucaoController;

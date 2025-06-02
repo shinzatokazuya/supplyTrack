@@ -63,6 +63,7 @@ const devolucaoController = {
         });
     },
 
+    // Nova função: Registrar uma nova solicitação de devolução
     createNewDevolucao: (req, res) => {
         const { idCliente, itens } = req.body;
 
@@ -175,8 +176,9 @@ const devolucaoController = {
             }
             res.status(200).json(rows);
         });
+    }
 
-        getDevolucaoById: (req, res) => {
+    getDevolucaoById: (req, res) => {
         const { idDevolucao } = req.params;
 
         console.log('Backend: Recebida solicitação para devolução ID:', idDevolucao);
@@ -245,6 +247,7 @@ const devolucaoController = {
         });
     },
 
+    // NOVA FUNÇÃO: Atualizar status e mensagem de resposta da devolução
     updateDevolucaoStatus: (req, res) => {
         const { idDevolucao } = req.params;
         const { status, mensagemResposta, idUsuarioGestor } = req.body; // idUsuarioGestor é o ID do gestor logado
@@ -284,6 +287,6 @@ const devolucaoController = {
         });
     }
 };
-}
+};
 
 module.exports = devolucaoController;

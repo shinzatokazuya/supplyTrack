@@ -40,7 +40,7 @@ textarea, select {
 }
 
 textarea:focus, select:focus {
-    border-color: #EA4335;
+    border-color: #34A853;
     outline: none;
 }
 

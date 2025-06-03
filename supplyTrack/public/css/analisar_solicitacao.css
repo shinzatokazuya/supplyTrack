@@ -61,7 +61,7 @@ th, td {
 }
 
 th {
-    background-color: #EA4335;
+    background-color: #34A853;
     color: white;
     font-weight: bold;
 }
@@ -80,7 +80,7 @@ button {
     padding: 12px;
     border: none;
     border-radius: 8px;
-    background-color: #EA4335;
+    background-color: #34A853;
     color: white;
     font-size: 16px;
     font-weight: bold;

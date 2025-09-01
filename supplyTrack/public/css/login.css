@@ -1,0 +1,119 @@
+/* Reset básico */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Corpo da página */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #115740;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container principal */
+.container {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+}
+
+/* Título */
+.container h1 {
+    color: #115740;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+/* Formulário */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+/* Rótulos */
+label {
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Campos de entrada */
+input[type="email"],
+input[type="password"] {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s ease;
+}
+
+input:focus {
+    border-color: #115740;
+    outline: none;
+}
+
+/* Botão de login */
+button {
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    background-color: #115740;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #0d4c36;
+}
+
+/* Link para cadastro */
+p {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+a {
+    color: #115740;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Mensagem de erro */
+.erro {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Responsividade */
+@media (max-width: 400px) {
+    .container {
+        margin: 0 1rem;
+        padding: 1.5rem;
+    }
+
+    .container h1 {
+        font-size: 1.5rem;
+    }
+}

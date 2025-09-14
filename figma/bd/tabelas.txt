@@ -1,0 +1,44 @@
+CREATE TABLE cursos (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    sigla TEXT,
+    departamento TEXT,
+    ativo BOOLEAN DEFAULT 1
+);
+
+
+CREATE TABLE usuarios (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    ra TEXT UNIQUE NOT NULL,
+    curso_ID INTEGER,
+    semestre INTEGER,
+    departamento TEXT,
+    tipoUsuario TEXT CHECK(tipoUsuario IN ('estudante', 'funcionario', 'admin')),
+    senha TEXT NOT NULL,
+    dataEntrada DATE DEFAULT CURRENT_DATE,
+    FOREIGN KEY (curso_ID) REFERENCES cursos(ID)
+);
+
+CREATE TABLE tipos_residuos (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    descricao TEXT,
+    ativo BOOLEAN DEFAUTL 1
+);
+
+CREATE TABLE coletas (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    usuario_ID INTEGER,
+    tipo_residuo_ID INTEGER,
+    peso REAL NOT NULL,
+    data_coleta DATE DEFAULT CURRENT_DATE,
+    FOREIGN KEY (usuario_ID) REFERENCES usuarios(ID),
+    FOREIGN KEY (tipo_residuo_ID) REFERENCES tipos_residuos(ID)
+);
+
+CREATE TABLE recompensas (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    
+)

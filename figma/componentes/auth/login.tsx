@@ -24,5 +24,10 @@ export function Login( { onLogin }: LoginProps) {
         ra: "",
         curso: "",
         semestre: "",
-    })
+        senha: "",
+        confirmarSenha: "",
+        tipoUsuario: ""
+    });
+
+    
 }

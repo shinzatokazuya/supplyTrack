@@ -26,7 +26,7 @@ export function Login( { onLogin }: LoginProps) {
         semestre: "",
         senha: "",
         confirmarSenha: "",
-        tipoUsuario: ""
+        tipoUsuario: "estudante"
     });
 
     const cursos = [
@@ -90,8 +90,25 @@ export function Login( { onLogin }: LoginProps) {
 
     const lidandoComOLogin = () => {
         if (!dadosLogin.ra || !dadosLogin.senha) {
-            toast.error("Preencha todos os campos");
+            toast.error("Preencha todos os campos.");
             return;
         }
     };
+
+    const lidandoComOCadastro = () => {
+        if(!dadosCadastro.nome || !dadosCadastro.email || !dadosCadastro.ra || !dadosCadastro.senha) {
+            toast.error("Preencha todos os campos obrigatórios.");
+            return;
+        }
+
+        if (dadosCadastro.senha !== dadosCadastro.confirmarSenha) {
+            toast.error("Senhas não conferem.");
+            return;
+        }
+
+        if (dadosCadastro.tipoUsuario === "estudante" && (!dadosCadastro.curso || !dadosCadastro.semestre)) {
+            toast.error("Curso e semestre são obrigatórios para alunos");
+            return;
+        }
+    }
 }

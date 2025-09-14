@@ -13,15 +13,16 @@ interface LoginProps {
 }
 
 export function Login( { onLogin }: LoginProps) {
-    const [loginData, setLoginData] = useState({
+    const [dadosLogin, setDadosLogin] = useState({
         ra: "",
         senha: ""
     });
 
-    const [registerData, setRegisterData] = useState({
-        nome: "";
-        email: "";
-        ra: "";
-        
+    const [dadosCadastro, setDadosCadastro] = useState({
+        nome: "",
+        email: "",
+        ra: "",
+        curso: "",
+        semestre: "",
     })
 }

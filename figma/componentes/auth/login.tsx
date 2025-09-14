@@ -93,6 +93,18 @@ export function Login( { onLogin }: LoginProps) {
             toast.error("Preencha todos os campos.");
             return;
         }
+
+        // Autenticacao Mock
+        const usuariosMock = {
+            ID: "",
+            nome: "",
+            email: "",
+            ra: "",
+            curso: "",
+            semestre: "",
+            tipoUsuario: "",
+            dataEntrada: ""
+        }
     };
 
     const lidandoComOCadastro = () => {

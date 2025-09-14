@@ -29,5 +29,69 @@ export function Login( { onLogin }: LoginProps) {
         tipoUsuario: ""
     });
 
-    
+    const cursos = [
+        "Administração",
+        "Análise e Desenvolvimento de Sistemas",
+        "Arquitetura e Urbanismo",
+        "Banco de Dados",
+        "Biomedicina",
+        "Ciências Biológicas",
+        "Ciência da Computação",
+        "Segurança Cibernética",
+        "Ciências Contábeis",
+        "Ciências Contábeis para Graduados",
+        "Ciências Econômicas",
+        "Comércio Exterior",
+        "Design de Interiores",
+        "Design Gráfico",
+        "Direito",
+        "Educação Física",
+        "Enfermagem",
+        "Engenharia Civil",
+        "Engenharia da Computação",
+        "Engenharia de Controle e Automação (Mecatrônica)",
+        "Engenharia de Produção",
+        "Engenharia Elétrica",
+        "Engenharia Química",
+        "Estatística",
+        "Estética e Cosmética",
+        "Farmácia",
+        "Fisioterapia",
+        "Fonoaudiologia",
+        "Inteligência Artificial",
+        "Gestão Comercial",
+        "Gestão da Qualidade",
+        "Gestão de Negócios Imobiliários",
+        "Gestão de RH",
+        "Gestão Financeira",
+        "Gestão Hospitalar",
+        "Gestão de TI",
+        "Logística",
+        "Jogos Digitais",
+        "Jornalismo",
+        "Marketing",
+        "Medicina",
+        "Medicina Veterinária",
+        "Mídias Sociais Digitais",
+        "Musicoterapia",
+        "Nutrição",
+        "Odontologia",
+        "Pedagogia",
+        "Processos Gerenciais",
+        "Produção Audiovisual (Cinema e Vídeo)",
+        "Produção Cultural",
+        "Psicologia",
+        "Publicidade e Propaganda",
+        "Relações Internacionais",
+        "Secretariado",
+        "Terapia Ocupacional",
+        "Teologia"
+    ];
+
+    const lidandoComOLogin = () => {
+        if (!dadosLogin.ra || !dadosLogin.senha) {
+            toast.error("Preencha todos os campos");
+            return;
+        }
+    };
 }

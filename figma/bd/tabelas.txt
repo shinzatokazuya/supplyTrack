@@ -40,5 +40,16 @@ CREATE TABLE coletas (
 
 CREATE TABLE recompensas (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    
-)
+    titulo TEXT NOT NULL,
+    descricao TEXT,
+    pontosNecessarios INTEGER NOT NULL
+);
+
+CREATE TABLE resgates (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    usuario_ID INTEGER,
+    recompensa_ID INTEGER,
+    data_resgate DATE DEFAULT CURRENT_DATE,
+    FOREIGN KEY (usuario_ID) REFERENCES usuarios(ID),
+    FOREIGN KEY (recompensa_ID) REFERENCES recompensas(ID)
+);

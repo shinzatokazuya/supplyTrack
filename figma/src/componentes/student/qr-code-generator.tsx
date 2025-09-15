@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import { QrCode, Download, Share2, Clock, CheckCircle } from "lucide-react";
 
 interface QRDelivery {

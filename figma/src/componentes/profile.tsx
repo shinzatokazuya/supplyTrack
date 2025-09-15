@@ -6,7 +6,7 @@ import { Label } from "./ui/label";
 import { Badge } from "./ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Separator } from "./ui/separator";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import { User, Mail, GraduationCap, Calendar, Trophy, Recycle, Edit, Camera } from "lucide-react";
 
 interface ProfileProps {

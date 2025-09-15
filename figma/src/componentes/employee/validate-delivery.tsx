@@ -6,7 +6,7 @@ import { Label } from "../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { Badge } from "../ui/badge";
 import { Textarea } from "../ui/textarea";
-import { toast } from "sonner@2.0.3";
+import { toast } from "sonner";
 import { QrCode, Search, CheckCircle, X, Camera, User } from "lucide-react";
 
 const wasteTypes = [

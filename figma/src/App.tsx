@@ -57,6 +57,7 @@ interface UserData {
 export default function App() {
   const [currentUser, setCurrentUser] =
     useState<UserData | null>(null);
+    
   const [activeTab, setActiveTab] = useState("dashboard");
   const [userStats, setUserStats] = useState({
     points: 847,

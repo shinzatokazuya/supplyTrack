@@ -1,0 +1,116 @@
+CREATE TABLE cursos (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    sigla TEXT,
+    departamento TEXT,
+    ativo BOOLEAN DEFAULT 1
+);
+
+
+CREATE TABLE usuarios (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    ra TEXT UNIQUE NOT NULL,
+    curso_ID INTEGER,
+    semestre INTEGER,
+    departamento TEXT,
+    tipoUsuario TEXT CHECK(tipoUsuario IN ('estudante', 'funcionario', 'admin')),
+    senha TEXT NOT NULL,
+    dataEntrada DATE DEFAULT CURRENT_DATE,
+    FOREIGN KEY (curso_ID) REFERENCES cursos(ID)
+);
+
+CREATE TABLE tipos_residuos (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    descricao TEXT,
+    ativo BOOLEAN DEFAUTL 1
+);
+
+CREATE TABLE coletas (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    usuario_ID INTEGER,
+    tipo_residuo_ID INTEGER,
+    peso REAL NOT NULL,
+    data_coleta DATE DEFAULT CURRENT_DATE,
+    FOREIGN KEY (usuario_ID) REFERENCES usuarios(ID),
+    FOREIGN KEY (tipo_residuo_ID) REFERENCES tipos_residuos(ID)
+);
+
+CREATE TABLE recompensas (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    titulo TEXT NOT NULL,
+    descricao TEXT,
+    pontosNecessarios INTEGER NOT NULL
+);
+
+CREATE TABLE resgates (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    usuario_ID INTEGER,
+    recompensa_ID INTEGER,
+    data_resgate DATE DEFAULT CURRENT_DATE,
+    FOREIGN KEY (usuario_ID) REFERENCES usuarios(ID),
+    FOREIGN KEY (recompensa_ID) REFERENCES recompensas(ID)
+);
+
+
+Cursos USCS
+    const cursos = [
+        "Administração",
+        "Análise e Desenvolvimento de Sistemas",
+        "Arquitetura e Urbanismo",
+        "Banco de Dados",
+        "Biomedicina",
+        "Ciências Biológicas",
+        "Ciência da Computação",
+        "Segurança Cibernética",
+        "Ciências Contábeis",
+        "Ciências Contábeis para Graduados",
+        "Ciências Econômicas",
+        "Comércio Exterior",
+        "Design de Interiores",
+        "Design Gráfico",
+        "Direito",
+        "Educação Física",
+        "Enfermagem",
+        "Engenharia Civil",
+        "Engenharia da Computação",
+        "Engenharia de Controle e Automação (Mecatrônica)",
+        "Engenharia de Produção",
+        "Engenharia Elétrica",
+        "Engenharia Química",
+        "Estatística",
+        "Estética e Cosmética",
+        "Farmácia",
+        "Fisioterapia",
+        "Fonoaudiologia",
+        "Inteligência Artificial",
+        "Gestão Comercial",
+        "Gestão da Qualidade",
+        "Gestão de Negócios Imobiliários",
+        "Gestão de RH",
+        "Gestão Financeira",
+        "Gestão Hospitalar",
+        "Gestão de TI",
+        "Logística",
+        "Jogos Digitais",
+        "Jornalismo",
+        "Marketing",
+        "Medicina",
+        "Medicina Veterinária",
+        "Mídias Sociais Digitais",
+        "Musicoterapia",
+        "Nutrição",
+        "Odontologia",
+        "Pedagogia",
+        "Processos Gerenciais",
+        "Produção Audiovisual (Cinema e Vídeo)",
+        "Produção Cultural",
+        "Psicologia",
+        "Publicidade e Propaganda",
+        "Relações Internacionais",
+        "Secretariado",
+        "Terapia Ocupacional",
+        "Teologia"
+    ];

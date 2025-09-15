@@ -4,21 +4,21 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "./components/ui/tabs";
-import { Button } from "./components/ui/button";
-import { Badge } from "./components/ui/badge";
-import { Dashboard } from "./components/dashboard";
-import { CollectWaste } from "./components/collect-waste";
-import { Leaderboard } from "./components/leaderboard";
-import { Rewards } from "./components/rewards";
-import { Campaigns } from "./components/campaigns";
-import { Profile } from "./components/profile";
-import { Login } from "./components/auth/login";
-import { EmployeeDashboard } from "./components/employee/employee-dashboard";
-import { ValidateDelivery } from "./components/employee/validate-delivery";
-import { Reports } from "./components/employee/reports";
-import { QRCodeGenerator } from "./components/student/qr-code-generator";
-import { Toaster } from "./components/ui/sonner";
+} from "./componentes/ui/tabs";
+import { Button } from "./componentes/ui/button";
+import { Badge } from "./componentes/ui/badge";
+import { Dashboard } from "./componentes/dashboard";
+import { CollectWaste } from "./componentes/collect-waste";
+import { Leaderboard } from "./componentes/leaderboard";
+import { Rewards } from "./componentes/rewards";
+import { Campaigns } from "./componentes/campaigns";
+import { Profile } from "./componentes/profile";
+import { Login } from "./componentes/auth/login";
+import { EmployeeDashboard } from "./componentes/employee/employee-dashboard";
+import { ValidateDelivery } from "./componentes/employee/validate-delivery";
+import { Reports } from "./componentes/employee/reports";
+import { QRCodeGenerator } from "./componentes/student/qr-code-generator";
+import { Toaster } from "./componentes/ui/sonner";
 import {
   Home,
   Plus,

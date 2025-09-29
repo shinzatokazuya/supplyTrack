@@ -173,11 +173,8 @@ export function StudentDashboard({ user, accessToken, onLogout, onUserUpdate }: 
                 <Recycle className="h-6 w-6 text-white" />
               </div>
               <div>
-<<<<<<< HEAD
                 <h1 className="text-xl font-semibold text-gray-900">Ecotrack</h1>
-=======
-                <h1 className="text-xl font-semibold text-gray-900">EcoUSCS</h1>
->>>>>>> 9c4129aeffb46f4da52d890afe55ac85b2e1ab28
+                <h1 className="text-xl font-semibold text-gray-900">Ecotrack</h1>
                 <p className="text-sm text-gray-600">Olá, {user.name}!</p>
               </div>
             </div>

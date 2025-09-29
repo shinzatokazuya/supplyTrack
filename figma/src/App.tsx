@@ -96,7 +96,7 @@ export default function App() {
     },
     {
       id: 3,
-      message: "Meta mensal da USCS 77% concluída",
+      message: "Meta mensal 77% concluída",
       type: "progress",
     },
   ]);
@@ -485,10 +485,10 @@ export default function App() {
             <div>
               <h3 className="font-semibold mb-2">Contato</h3>
               <p className="text-sm text-muted-foreground">
-                sustentabilidade@uscs.edu.br
+                sustentabilidade@ecotrack.com.br
               </p>
               <p className="text-sm text-muted-foreground">
-                (11) 4239-3200
+                (11) 9XXXX-XXXX
               </p>
             </div>
             <div>

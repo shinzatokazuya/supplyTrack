@@ -32,7 +32,7 @@ export function LoginForm({ onLogin, onSwitchToRegister }: LoginFormProps) {
             </div>
             <Leaf className="h-6 w-6 text-green-600" />
           </div>
-          <CardTitle className="text-2xl text-green-800">EcoUSCS</CardTitle>
+          <CardTitle className="text-2xl text-green-800">Ecotrack</CardTitle>
           <CardDescription>
             Sistema de Coleta de Resíduos Sustentável
           </CardDescription>
@@ -44,7 +44,7 @@ export function LoginForm({ onLogin, onSwitchToRegister }: LoginFormProps) {
               <Input
                 id="email"
                 type="email"
-                placeholder="seu.email@uscs.edu.br"
+                placeholder="email@exemplo.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -63,8 +63,8 @@ export function LoginForm({ onLogin, onSwitchToRegister }: LoginFormProps) {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="w-full bg-green-600 hover:bg-green-700"
               disabled={isLoading}
             >
@@ -74,9 +74,9 @@ export function LoginForm({ onLogin, onSwitchToRegister }: LoginFormProps) {
               <p className="text-sm text-gray-600">
                 Não tem uma conta?
               </p>
-              <Button 
+              <Button
                 type="button"
-                variant="outline" 
+                variant="outline"
                 className="w-full"
                 onClick={onSwitchToRegister}
               >

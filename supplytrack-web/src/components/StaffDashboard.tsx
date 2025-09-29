@@ -128,7 +128,7 @@ export function StaffDashboard({ user, accessToken, onLogout }: StaffDashboardPr
               </div>
               <div>
                 <h1 className="text-xl font-semibold text-gray-900">Ecotrack - Funcionário</h1>
-                <h1 className="text-xl font-semibold text-gray-900">EcoUSCS - Funcionário</h1>
+                <h1 className="text-xl font-semibold text-gray-900">Ecotrack - Funcionário</h1>
                 <p className="text-sm text-gray-600">Olá, {user.name}!</p>
               </div>
             </div>

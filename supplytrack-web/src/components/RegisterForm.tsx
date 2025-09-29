@@ -56,11 +56,7 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 9c4129aeffb46f4da52d890afe55ac85b2e1ab28
     if (formData.password !== formData.confirmPassword) {
       alert("As senhas não coincidem!");
       return;
@@ -72,17 +68,10 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
     }
 
     setIsLoading(true);
-<<<<<<< HEAD
 
     const { confirmPassword, ...userData } = formData;
     await onRegister(userData);
 
-=======
-    
-    const { confirmPassword, ...userData } = formData;
-    await onRegister(userData);
-    
->>>>>>> 9c4129aeffb46f4da52d890afe55ac85b2e1ab28
     setIsLoading(false);
   };
 
@@ -98,11 +87,7 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
           </div>
           <CardTitle className="text-2xl text-green-800">Criar Conta</CardTitle>
           <CardDescription>
-<<<<<<< HEAD
             Junte-se ao movimento sustentável
-=======
-            Junte-se ao movimento sustentável da USCS
->>>>>>> 9c4129aeffb46f4da52d890afe55ac85b2e1ab28
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
@@ -152,11 +137,7 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
               <Input
                 id="email"
                 type="email"
-<<<<<<< HEAD
                 placeholder="email@exemplo.com"
-=======
-                placeholder="seu.email@uscs.edu.br"
->>>>>>> 9c4129aeffb46f4da52d890afe55ac85b2e1ab28
                 value={formData.email}
                 onChange={(e) => handleChange('email', e.target.value)}
                 required
@@ -218,27 +199,16 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-<<<<<<< HEAD
             <Button
               type="submit"
-=======
-            <Button 
-              type="submit" 
->>>>>>> 9c4129aeffb46f4da52d890afe55ac85b2e1ab28
               className="w-full bg-green-600 hover:bg-green-700"
               disabled={isLoading}
             >
               {isLoading ? "Criando conta..." : "Criar Conta"}
             </Button>
-<<<<<<< HEAD
             <Button
               type="button"
               variant="ghost"
-=======
-            <Button 
-              type="button"
-              variant="ghost" 
->>>>>>> 9c4129aeffb46f4da52d890afe55ac85b2e1ab28
               className="w-full"
               onClick={onSwitchToLogin}
             >
@@ -250,8 +220,4 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
       </Card>
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 9c4129aeffb46f4da52d890afe55ac85b2e1ab28

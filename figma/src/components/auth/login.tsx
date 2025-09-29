@@ -209,7 +209,7 @@ export function Login({ onLogin }: LoginProps) {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="seu.email@uscs.edu.br"
+                    placeholder="email@exemplo.com"
                     value={registerData.email}
                     onChange={(e) => setRegisterData({...registerData, email: e.target.value})}
                   />

@@ -32,11 +32,7 @@ export function LoginForm({ onLogin, onSwitchToRegister }: LoginFormProps) {
             </div>
             <Leaf className="h-6 w-6 text-green-600" />
           </div>
-<<<<<<< HEAD
           <CardTitle className="text-2xl text-green-800">Ecotrack</CardTitle>
-=======
-          <CardTitle className="text-2xl text-green-800">EcoUSCS</CardTitle>
->>>>>>> 9c4129aeffb46f4da52d890afe55ac85b2e1ab28
           <CardDescription>
             Sistema de Coleta de Resíduos Sustentável
           </CardDescription>
@@ -48,11 +44,7 @@ export function LoginForm({ onLogin, onSwitchToRegister }: LoginFormProps) {
               <Input
                 id="email"
                 type="email"
-<<<<<<< HEAD
                 placeholder="email@exemplo.com"
-=======
-                placeholder="seu.email@uscs.edu.br"
->>>>>>> 9c4129aeffb46f4da52d890afe55ac85b2e1ab28
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -71,13 +63,8 @@ export function LoginForm({ onLogin, onSwitchToRegister }: LoginFormProps) {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-<<<<<<< HEAD
             <Button
               type="submit"
-=======
-            <Button 
-              type="submit" 
->>>>>>> 9c4129aeffb46f4da52d890afe55ac85b2e1ab28
               className="w-full bg-green-600 hover:bg-green-700"
               disabled={isLoading}
             >
@@ -87,15 +74,9 @@ export function LoginForm({ onLogin, onSwitchToRegister }: LoginFormProps) {
               <p className="text-sm text-gray-600">
                 Não tem uma conta?
               </p>
-<<<<<<< HEAD
               <Button
                 type="button"
                 variant="outline"
-=======
-              <Button 
-                type="button"
-                variant="outline" 
->>>>>>> 9c4129aeffb46f4da52d890afe55ac85b2e1ab28
                 className="w-full"
                 onClick={onSwitchToRegister}
               >
@@ -107,8 +88,4 @@ export function LoginForm({ onLogin, onSwitchToRegister }: LoginFormProps) {
       </Card>
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 9c4129aeffb46f4da52d890afe55ac85b2e1ab28

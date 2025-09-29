@@ -56,7 +56,7 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (formData.password !== formData.confirmPassword) {
       alert("As senhas não coincidem!");
       return;
@@ -68,10 +68,10 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
     }
 
     setIsLoading(true);
-    
+
     const { confirmPassword, ...userData } = formData;
     await onRegister(userData);
-    
+
     setIsLoading(false);
   };
 
@@ -87,7 +87,7 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
           </div>
           <CardTitle className="text-2xl text-green-800">Criar Conta</CardTitle>
           <CardDescription>
-            Junte-se ao movimento sustentável da USCS
+            Junte-se ao movimento sustentável
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
@@ -137,7 +137,7 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
               <Input
                 id="email"
                 type="email"
-                placeholder="seu.email@uscs.edu.br"
+                placeholder="email@exemplo.com"
                 value={formData.email}
                 onChange={(e) => handleChange('email', e.target.value)}
                 required
@@ -199,16 +199,16 @@ export function RegisterForm({ onRegister, onSwitchToLogin }: RegisterFormProps)
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-4">
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="w-full bg-green-600 hover:bg-green-700"
               disabled={isLoading}
             >
               {isLoading ? "Criando conta..." : "Criar Conta"}
             </Button>
-            <Button 
+            <Button
               type="button"
-              variant="ghost" 
+              variant="ghost"
               className="w-full"
               onClick={onSwitchToLogin}
             >

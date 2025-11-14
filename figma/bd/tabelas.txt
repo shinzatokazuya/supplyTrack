@@ -65,9 +65,9 @@ CREATE TABLE entregas (
 );
 
 -- ITENS DA ENTREGA
-CREATE TABLE delivery_items (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    delivery_id INTEGER NOT NULL,
+CREATE TABLE itens_entrega (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    entrega_id INTEGER NOT NULL,
     waste_type_id INTEGER NOT NULL,
     estimated_weight REAL,
     actual_weight REAL,

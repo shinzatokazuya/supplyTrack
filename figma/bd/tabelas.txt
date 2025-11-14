@@ -44,7 +44,7 @@ CREATE TABLE tipos_residuos (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
     descricao TEXT,
-    points_per_kg REAL NOT NULL,
+    pontos REAL NOT NULL,
     color TEXT
 );
 

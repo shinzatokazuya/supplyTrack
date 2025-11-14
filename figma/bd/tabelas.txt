@@ -45,7 +45,7 @@ CREATE TABLE tipos_residuos (
     nome TEXT NOT NULL,
     descricao TEXT,
     pontos REAL NOT NULL,
-    color TEXT
+    cor TEXT
 );
 
 -- ENTREGA (pré-coleta + validação)

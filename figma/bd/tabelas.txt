@@ -71,8 +71,8 @@ CREATE TABLE itens_entrega (
     tipo_residuo_id INTEGER NOT NULL,
     peso_estimado REAL,
     peso_atual REAL,
-    FOREIGN KEY (delivery_id) REFERENCES deliveries(id),
-    FOREIGN KEY (waste_type_id) REFERENCES waste_types(id)
+    FOREIGN KEY (entrega_id) REFERENCES entregas(ID),
+    FOREIGN KEY (tipo_residuo_id) REFERENCES tipos_residuos(ID)
 );
 
 ---------------------------------------------------------
@@ -80,37 +80,37 @@ CREATE TABLE itens_entrega (
 ---------------------------------------------------------
 
 -- RECOMPENSAS
-CREATE TABLE rewards (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    description TEXT,
-    points_required INTEGER NOT NULL,
-    type TEXT CHECK (type IN ('discount','item','hours','certificate')) NOT NULL
+CREATE TABLE recompensas (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    descricao TEXT,
+    pontos_necessarios INTEGER NOT NULL,
+    tipo TEXT CHECK (tipo IN ('desconto','item','horas','comprovante')) NOT NULL
 );
 
 -- RESGATE DE RECOMPENSAS
-CREATE TABLE reward_redemptions (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    reward_id INTEGER NOT NULL,
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (reward_id) REFERENCES rewards(id)
+CREATE TABLE historico_recompensa (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    usuario_id INTEGER NOT NULL,
+    recompensa_id INTEGER NOT NULL,
+    criado_em TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(ID),
+    FOREIGN KEY (recompensa_id) REFERENCES recompensas(ID)
 );
 
 -- BADGES (opcional, mas recomendado)
-CREATE TABLE badges (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    description TEXT,
-    icon TEXT
+CREATE TABLE medalhas (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    descricao TEXT,
+    icone TEXT
 );
 
 -- BADGES DO USUÁRIO
-CREATE TABLE user_badges (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    badge_id INTEGER NOT NULL,
+CREATE TABLE usuario_medalhas (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    usuario_id INTEGER NOT NULL,
+    medalha_id INTEGER NOT NULL,
     earned_at TEXT DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (badge_id) REFERENCES badges(id)

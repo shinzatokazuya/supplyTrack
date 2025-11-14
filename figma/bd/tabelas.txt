@@ -49,10 +49,10 @@ CREATE TABLE tipos_residuos (
 );
 
 -- ENTREGA (pré-coleta + validação)
-CREATE TABLE deliveries (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    status TEXT CHECK (status IN ('pending','validated','rejected')) NOT NULL DEFAULT 'pending',
+CREATE TABLE entregas (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    usuario_id INTEGER NOT NULL,
+    status TEXT CHECK (status IN ('pendente','validado','rejeitado')) NOT NULL DEFAULT 'pendente',
     notes TEXT,
     expected_points REAL,
     actual_points REAL,

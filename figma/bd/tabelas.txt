@@ -111,22 +111,22 @@ CREATE TABLE usuario_medalhas (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
     usuario_id INTEGER NOT NULL,
     medalha_id INTEGER NOT NULL,
-    earned_at TEXT DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (badge_id) REFERENCES badges(id)
+    recebido_em TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(ID),
+    FOREIGN KEY (medalha_id) REFERENCES medalhas(ID)
 );
 
 ---------------------------------------------------------
 -- REGRA OPCIONAL DE PONTOS (CASO MUDE AO LONGO DO TEMPO)
 ---------------------------------------------------------
 
-CREATE TABLE waste_points_rules (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    waste_type_id INTEGER NOT NULL,
-    points_per_kg REAL NOT NULL,
-    valid_from DATE,
-    valid_to DATE,
-    FOREIGN KEY (waste_type_id) REFERENCES waste_types(id)
+CREATE TABLE regra_pontos_residuos (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    tipo_residuo_id INTEGER NOT NULL,
+    pontos REAL NOT NULL,
+    validade_inicial DATE,
+    validade_final DATE,
+    FOREIGN KEY (tipo_residuo_id) REFERENCES tipos_residuos(ID)
 );
 
 ---------------------------------------------------------

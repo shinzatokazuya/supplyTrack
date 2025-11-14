@@ -8,30 +8,31 @@ PRAGMA foreign_keys = ON;
 CREATE TABLE campi (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
-    cidade TEXT,
-    uf TEXT
+    cidade TEXT NOT NULL,
+    estado TEXT NOT NULL,
+    uf TEXT NOT NULL
 );
 
 -- CURSOS
-CREATE TABLE courses (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
+CREATE TABLE cursos (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
     sigla TEXT
 );
 
 -- USUÁRIOS (alunos, voluntários, admin)
-CREATE TABLE users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
+CREATE TABLE usuarios (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     ra TEXT UNIQUE,
-    course_id INTEGER,
+    curso_id INTEGER,
     campus_id INTEGER,
-    user_type TEXT CHECK (user_type IN ('student','volunteer','admin')),
-    password_hash TEXT NOT NULL,
-    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (course_id) REFERENCES courses(id),
-    FOREIGN KEY (campus_id) REFERENCES campi(id)
+    tipo_usuario TEXT CHECK (tipo_usuario IN ('estudante','voluntario','admin')),
+    senha TEXT NOT NULL,
+    criado_em TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (curso_id) REFERENCES cursos(ID),
+    FOREIGN KEY (campus_id) REFERENCES campi(ID)
 );
 
 ---------------------------------------------------------
@@ -39,10 +40,10 @@ CREATE TABLE users (
 ---------------------------------------------------------
 
 -- TIPOS DE RESÍDUOS
-CREATE TABLE waste_types (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    description TEXT,
+CREATE TABLE tipos_residuos (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    descricao TEXT,
     points_per_kg REAL NOT NULL,
     color TEXT
 );

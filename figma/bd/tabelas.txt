@@ -1,116 +1,193 @@
-CREATE TABLE cursos (
-    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
-    sigla TEXT,
-    departamento TEXT,
-    ativo BOOLEAN DEFAULT 1
+PRAGMA foreign_keys = ON;
+
+---------------------------------------------------------
+-- TABELAS DE BASE
+---------------------------------------------------------
+
+-- CAMPUS
+CREATE TABLE campi (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    city TEXT,
+    uf TEXT
 );
 
+-- CURSOS
+CREATE TABLE courses (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    sigla TEXT
+);
 
-CREATE TABLE usuarios (
-    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
+-- USUÁRIOS (alunos, voluntários, admin)
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
-    ra TEXT UNIQUE NOT NULL,
-    curso_ID INTEGER,
-    semestre INTEGER,
-    departamento TEXT,
-    tipoUsuario TEXT CHECK(tipoUsuario IN ('estudante', 'funcionario', 'admin')),
-    senha TEXT NOT NULL,
-    dataEntrada DATE DEFAULT CURRENT_DATE,
-    FOREIGN KEY (curso_ID) REFERENCES cursos(ID)
+    ra TEXT UNIQUE,
+    course_id INTEGER,
+    campus_id INTEGER,
+    user_type TEXT CHECK (user_type IN ('student','volunteer','admin')),
+    password_hash TEXT NOT NULL,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (course_id) REFERENCES courses(id),
+    FOREIGN KEY (campus_id) REFERENCES campi(id)
 );
 
-CREATE TABLE tipos_residuos (
-    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
-    descricao TEXT,
-    ativo BOOLEAN DEFAUTL 1
+---------------------------------------------------------
+-- RESÍDUOS E COLETAS
+---------------------------------------------------------
+
+-- TIPOS DE RESÍDUOS
+CREATE TABLE waste_types (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT,
+    points_per_kg REAL NOT NULL,
+    color TEXT
 );
 
-CREATE TABLE coletas (
-    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    usuario_ID INTEGER,
-    tipo_residuo_ID INTEGER,
-    peso REAL NOT NULL,
-    data_coleta DATE DEFAULT CURRENT_DATE,
-    FOREIGN KEY (usuario_ID) REFERENCES usuarios(ID),
-    FOREIGN KEY (tipo_residuo_ID) REFERENCES tipos_residuos(ID)
+-- ENTREGA (pré-coleta + validação)
+CREATE TABLE deliveries (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    status TEXT CHECK (status IN ('pending','validated','rejected')) NOT NULL DEFAULT 'pending',
+    notes TEXT,
+    expected_points REAL,
+    actual_points REAL,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+
+    validated_by INTEGER,
+    validated_at TEXT,
+    validation_notes TEXT,
+
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (validated_by) REFERENCES users(id)
 );
 
-CREATE TABLE recompensas (
-    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    titulo TEXT NOT NULL,
-    descricao TEXT,
-    pontosNecessarios INTEGER NOT NULL
+-- ITENS DA ENTREGA
+CREATE TABLE delivery_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    delivery_id INTEGER NOT NULL,
+    waste_type_id INTEGER NOT NULL,
+    estimated_weight REAL,
+    actual_weight REAL,
+    FOREIGN KEY (delivery_id) REFERENCES deliveries(id),
+    FOREIGN KEY (waste_type_id) REFERENCES waste_types(id)
 );
 
-CREATE TABLE resgates (
-    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    usuario_ID INTEGER,
-    recompensa_ID INTEGER,
-    data_resgate DATE DEFAULT CURRENT_DATE,
-    FOREIGN KEY (usuario_ID) REFERENCES usuarios(ID),
-    FOREIGN KEY (recompensa_ID) REFERENCES recompensas(ID)
+---------------------------------------------------------
+-- GAMIFICAÇÃO
+---------------------------------------------------------
+
+-- RECOMPENSAS
+CREATE TABLE rewards (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT,
+    points_required INTEGER NOT NULL,
+    type TEXT CHECK (type IN ('discount','item','hours','certificate')) NOT NULL
 );
 
+-- RESGATE DE RECOMPENSAS
+CREATE TABLE reward_redemptions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    reward_id INTEGER NOT NULL,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (reward_id) REFERENCES rewards(id)
+);
 
-Cursos USCS
-    const cursos = [
-        "Administração",
-        "Análise e Desenvolvimento de Sistemas",
-        "Arquitetura e Urbanismo",
-        "Banco de Dados",
-        "Biomedicina",
-        "Ciências Biológicas",
-        "Ciência da Computação",
-        "Segurança Cibernética",
-        "Ciências Contábeis",
-        "Ciências Contábeis para Graduados",
-        "Ciências Econômicas",
-        "Comércio Exterior",
-        "Design de Interiores",
-        "Design Gráfico",
-        "Direito",
-        "Educação Física",
-        "Enfermagem",
-        "Engenharia Civil",
-        "Engenharia da Computação",
-        "Engenharia de Controle e Automação (Mecatrônica)",
-        "Engenharia de Produção",
-        "Engenharia Elétrica",
-        "Engenharia Química",
-        "Estatística",
-        "Estética e Cosmética",
-        "Farmácia",
-        "Fisioterapia",
-        "Fonoaudiologia",
-        "Inteligência Artificial",
-        "Gestão Comercial",
-        "Gestão da Qualidade",
-        "Gestão de Negócios Imobiliários",
-        "Gestão de RH",
-        "Gestão Financeira",
-        "Gestão Hospitalar",
-        "Gestão de TI",
-        "Logística",
-        "Jogos Digitais",
-        "Jornalismo",
-        "Marketing",
-        "Medicina",
-        "Medicina Veterinária",
-        "Mídias Sociais Digitais",
-        "Musicoterapia",
-        "Nutrição",
-        "Odontologia",
-        "Pedagogia",
-        "Processos Gerenciais",
-        "Produção Audiovisual (Cinema e Vídeo)",
-        "Produção Cultural",
-        "Psicologia",
-        "Publicidade e Propaganda",
-        "Relações Internacionais",
-        "Secretariado",
-        "Terapia Ocupacional",
-        "Teologia"
-    ];
+-- BADGES (opcional, mas recomendado)
+CREATE TABLE badges (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT,
+    icon TEXT
+);
+
+-- BADGES DO USUÁRIO
+CREATE TABLE user_badges (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    badge_id INTEGER NOT NULL,
+    earned_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (badge_id) REFERENCES badges(id)
+);
+
+---------------------------------------------------------
+-- REGRA OPCIONAL DE PONTOS (CASO MUDE AO LONGO DO TEMPO)
+---------------------------------------------------------
+
+CREATE TABLE waste_points_rules (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    waste_type_id INTEGER NOT NULL,
+    points_per_kg REAL NOT NULL,
+    valid_from DATE,
+    valid_to DATE,
+    FOREIGN KEY (waste_type_id) REFERENCES waste_types(id)
+);
+
+---------------------------------------------------------
+-- INSERT DOS CURSOS (LISTA COMPLETA)
+---------------------------------------------------------
+
+INSERT INTO courses (name) VALUES
+("Administração"),
+("Análise e Desenvolvimento de Sistemas"),
+("Arquitetura e Urbanismo"),
+("Banco de Dados"),
+("Biomedicina"),
+("Ciências Biológicas"),
+("Ciência da Computação"),
+("Segurança Cibernética"),
+("Ciências Contábeis"),
+("Ciências Contábeis para Graduados"),
+("Ciências Econômicas"),
+("Comércio Exterior"),
+("Design de Interiores"),
+("Design Gráfico"),
+("Direito"),
+("Educação Física"),
+("Enfermagem"),
+("Engenharia Civil"),
+("Engenharia da Computação"),
+("Engenharia de Controle e Automação (Mecatrônica)"),
+("Engenharia de Produção"),
+("Engenharia Elétrica"),
+("Engenharia Química"),
+("Estatística"),
+("Estética e Cosmética"),
+("Farmácia"),
+("Fisioterapia"),
+("Fonoaudiologia"),
+("Inteligência Artificial"),
+("Gestão Comercial"),
+("Gestão da Qualidade"),
+("Gestão de Negócios Imobiliários"),
+("Gestão de RH"),
+("Gestão Financeira"),
+("Gestão Hospitalar"),
+("Gestão de TI"),
+("Logística"),
+("Jogos Digitais"),
+("Jornalismo"),
+("Marketing"),
+("Medicina"),
+("Medicina Veterinária"),
+("Mídias Sociais Digitais"),
+("Musicoterapia"),
+("Nutrição"),
+("Odontologia"),
+("Pedagogia"),
+("Processos Gerenciais"),
+("Produção Audiovisual (Cinema e Vídeo)"),
+("Produção Cultural"),
+("Psicologia"),
+("Publicidade e Propaganda"),
+("Relações Internacionais"),
+("Secretariado"),
+("Terapia Ocupacional"),
+("Teologia");

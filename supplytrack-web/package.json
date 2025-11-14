@@ -45,6 +45,10 @@
     "tailwindcss": "^4.1.13",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.43.0",
+<<<<<<< HEAD
+    "vite": "^7.1.7"
+=======
     "vite": "^7.1.6"
+>>>>>>> 9c4129aeffb46f4da52d890afe55ac85b2e1ab28
   }
 }

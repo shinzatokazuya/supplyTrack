@@ -64,7 +64,7 @@ export function QRCodeGenerator({ studentRA, studentName }: QRCodeGeneratorProps
     if (!currentQR) return;
 
     // Create a simple text file with QR code info
-    const qrData = `EcoUSCS - QR Code de Entrega
+    const qrData = `Ecotrack - QR Code de Entrega
 
 Aluno: ${studentName}
 RA: ${studentRA}
@@ -89,7 +89,7 @@ Apresente este código ao funcionário responsável pela coleta.`;
     if (!currentQR) return;
 
     const shareData = {
-      title: 'EcoUSCS - QR Code de Entrega',
+      title: 'Ecotrack - QR Code de Entrega',
       text: `QR Code: ${currentQR.qrCode}\nAluno: ${studentName}\nExpira em: ${currentQR.expiresAt}`,
     };
 

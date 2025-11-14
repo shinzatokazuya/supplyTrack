@@ -121,7 +121,7 @@ export function Login({ onLogin }: LoginProps) {
           <div className="bg-green-600 text-white p-3 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
             <Leaf className="w-8 h-8" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">EcoUSCS</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Ecotrack</h1>
           <p className="text-gray-600">Sistema de Coleta Sustentável</p>
         </div>
 
@@ -209,7 +209,7 @@ export function Login({ onLogin }: LoginProps) {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="seu.email@uscs.edu.br"
+                    placeholder="email@exemplo.com"
                     value={registerData.email}
                     onChange={(e) => setRegisterData({...registerData, email: e.target.value})}
                   />

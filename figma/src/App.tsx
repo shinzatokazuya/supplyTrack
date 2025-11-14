@@ -96,7 +96,7 @@ export default function App() {
     },
     {
       id: 3,
-      message: "Meta mensal da USCS 77% concluída",
+      message: "Meta mensal 77% concluída",
       type: "progress",
     },
   ]);
@@ -175,7 +175,7 @@ export default function App() {
                 <Leaf className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-bold">EcoUSCS</h1>
+                <h1 className="text-xl font-bold">Ecotrack</h1>
                 <p className="text-sm text-muted-foreground">
                   {currentUser.userType === "student"
                     ? "Sustentabilidade & Gamificação"
@@ -476,7 +476,7 @@ export default function App() {
         <div className="container mx-auto px-4 py-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <h3 className="font-semibold mb-2">EcoUSCS</h3>
+              <h3 className="font-semibold mb-2">Ecotrack</h3>
               <p className="text-sm text-muted-foreground">
                 Projeto piloto de sustentabilidade e gamificação
                 da Universidade Municipal de São Caetano do Sul.
@@ -485,10 +485,10 @@ export default function App() {
             <div>
               <h3 className="font-semibold mb-2">Contato</h3>
               <p className="text-sm text-muted-foreground">
-                sustentabilidade@uscs.edu.br
+                sustentabilidade@ecotrack.com.br
               </p>
               <p className="text-sm text-muted-foreground">
-                (11) 4239-3200
+                (11) 9XXXX-XXXX
               </p>
             </div>
             <div>

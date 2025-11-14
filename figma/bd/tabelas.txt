@@ -53,17 +53,15 @@ CREATE TABLE entregas (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
     usuario_id INTEGER NOT NULL,
     status TEXT CHECK (status IN ('pendente','validado','rejeitado')) NOT NULL DEFAULT 'pendente',
-    notes TEXT,
-    expected_points REAL,
-    actual_points REAL,
+    avisos TEXT,
+    pontos_esperados REAL,
+    pontos_recebidos REAL,
     created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-
-    validated_by INTEGER,
-    validated_at TEXT,
-    validation_notes TEXT,
-
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (validated_by) REFERENCES users(id)
+    validado_por INTEGER,
+    validado_em TEXT,
+    avisos_validacao TEXT,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(ID),
+    FOREIGN KEY (validado_por) REFERENCES usuarios(ID)
 );
 
 -- ITENS DA ENTREGA

@@ -68,9 +68,9 @@ CREATE TABLE entregas (
 CREATE TABLE itens_entrega (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
     entrega_id INTEGER NOT NULL,
-    waste_type_id INTEGER NOT NULL,
-    estimated_weight REAL,
-    actual_weight REAL,
+    tipo_residuo_id INTEGER NOT NULL,
+    peso_estimado REAL,
+    peso_atual REAL,
     FOREIGN KEY (delivery_id) REFERENCES deliveries(id),
     FOREIGN KEY (waste_type_id) REFERENCES waste_types(id)
 );

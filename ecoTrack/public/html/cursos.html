@@ -1,17 +1,18 @@
 <!doctype html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="utf-8"/>
-        <title>Cursos</title>
-        <link rel="stylesheet" href="../css/styles.css">
-    </head>
-    <body>
+<head>
+    <meta charset="utf-8"/>
+    <title>Cursos</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
     <header>
         <h1>Cursos</h1>
         <nav>
             <a href="index.html">Voltar</a>
         </nav>
     </header>
+    
     <main class="container">
     <section>
         <h2>Criar / Editar Curso</h2>
@@ -95,10 +96,10 @@
                 showError(e);
             }
         });
-        
+
         document.getElementById('btn-reset').addEventListener('click', ()=>{ document.getElementById('form-curso').reset(); document.getElementById('curso-id').value='';});
         window.addEventListener('load', carregar);
 
     </script>
-    </body>
+</body>
 </html>

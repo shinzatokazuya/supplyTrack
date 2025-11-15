@@ -1,18 +1,35 @@
 <!doctype html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="utf-8"/>
-        <title>Campi</title>
-        <link rel="stylesheet" href="../css/styles.css"></head>
-    <body>
-    <header><h1>Campi</h1><nav><a href="index.html">Voltar</a></nav></header>
+<head>
+    <meta charset="utf-8"/>
+    <title>Campi</title>
+    <link rel="stylesheet" href="../css/styles.css"></head>
+<body>
+    <header>
+        <h1>Campi</h1>
+        <nav>
+            <a href="index.html">Voltar</a>
+        </nav>
+    </header>
+
     <main class="container">
     <form id="form-campi"><input type="hidden" id="campi-id">
-        <label>Nome <input id="campi-nome" required></label>
-        <label>Cidade <input id="campi-cidade" required></label>
-        <label>Estado <input id="campi-estado" required></label>
-        <label>UF <input id="campi-uf" required></label>
-        <div class="actions"><button>Salvar</button><button type="button" id="reset" class="secondary">Limpar</button></div>
+        <label>Nome:
+            <input id="campi-nome" required>
+        </label>
+        <label>Cidade:
+            <input id="campi-cidade" required>
+        </label>
+        <label>Estado:
+            <input id="campi-estado" required>
+        </label>
+        <label>UF:
+            <input id="campi-uf" required>
+        </label>
+        <div class="actions">
+            <button>Salvar</button>
+            <button type="button" id="reset" class="secondary">Limpar</button>
+        </div>
     </form>
 
     <h2>Lista</h2>
@@ -31,5 +48,5 @@
     document.getElementById('reset').addEventListener('click', ()=>{ document.getElementById('form-campi').reset(); document.getElementById('campi-id').value='';});
     window.addEventListener('load', carregar);
     </script>
-    </body>
+</body>
 </html>

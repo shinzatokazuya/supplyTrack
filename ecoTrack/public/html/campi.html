@@ -56,8 +56,19 @@
             const t = document.querySelector('#tbl-campi tbody');
             t.innerHTML= '';
             rows.forEach(r => {
-                t.innerHTML += `<tr><td>${r.ID}</td><td>${r.nome}</td><td>${r.cidade}</td><td>${r.estado}</td><td>${r.uf}</td>
-                <td class="actions"><button onclick="editar(${r.ID})" class="small">Editar</button><button onclick="excluir(${r.ID})" class="small secondary">Excluir</button></td></tr>`);
+                t.innerHTML += `
+                <tr>
+                    <td>${r.ID}</td>
+                    <td>${r.nome}</td>
+                    <td>${r.cidade}</td>
+                    <td>${r.estado}</td>
+                    <td>${r.uf}</td>
+                    <td class="actions">
+                        <button onclick="editar(${r.ID})" class="small">Editar</button>
+                        <button onclick="excluir(${r.ID})" class="small secondary">Excluir</button>
+                    </td>
+                </tr>`
+            });
         }
 
         async function editar(id) {
@@ -68,9 +79,33 @@
             document.getElementById('campi-estado').value=r.estado;
             document.getElementById('campi-uf').value=r.uf;
         }
-        async function excluir(id){ if(!confirm('Excluir?')) return; await apiDelete('/campi/'+id); carregar(); }
-        document.getElementById('form-campi').addEventListener('submit', async e=>{ e.preventDefault(); const id=document.getElementById('campi-id').value; const body={nome:document.getElementById('campi-nome').value,cidade:document.getElementById('campi-cidade').value,estado:document.getElementById('campi-estado').value,uf:document.getElementById('campi-uf').value}; if(id) await apiPut('/campi/'+id,body); else await apiPost('/campi',body); document.getElementById('reset').click(); carregar();});
-        document.getElementById('reset').addEventListener('click', ()=>{ document.getElementById('form-campi').reset(); document.getElementById('campi-id').value='';});
+
+        async function excluir(id) {
+            if(!confirm('Excluir?')) return;
+            await apiDelete('/campi/'+ id);
+            carregar();
+        }
+
+        document.getElementById('form-campi').addEventListener('submit', async e => {
+            e.preventDefault();
+            const id = document.getElementById('campi-id').value;
+            const body = {
+                nome: document.getElementById('campi-nome').value,
+                cidade: document.getElementById('campi-cidade').value,
+                estado: document.getElementById('campi-estado').value,
+                uf: document.getElementById('campi-uf').value
+            };
+            if(id) await apiPut('/campi/'+ id,body);
+            else await apiPost('/campi', body);
+            document.getElementById('reset').click();
+            carregar();
+        });
+
+        document.getElementById('reset').addEventListener('click', () => {
+            document.getElementById('form-campi').reset();
+            document.getElementById('campi-id').value='';
+        });
+
         window.addEventListener('load', carregar);
 
     </script>

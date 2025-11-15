@@ -12,7 +12,7 @@
             <a href="index.html">Voltar</a>
         </nav>
     </header>
-    
+
     <main class="container">
     <section>
         <h2>Criar / Editar Curso</h2>
@@ -59,8 +59,8 @@
                     const tr = document.createElement('tr');
                     tr.innerHTML = `<td>${r.ID}</td><td>${r.nome}</td><td>${r.sigla || ''}</td>
                         <td class="actions">
-                        <button onclick="editar(${r.ID})" class="small">Editar</button>
-                        <button onclick="excluir(${r.ID})" class="small secondary">Excluir</button>
+                            <button onclick="editar(${r.ID})" class="small">Editar</button>
+                            <button onclick="excluir(${r.ID})" class="small secondary">Excluir</button>
                         </td>`;
                     t.appendChild(tr);
                 });
@@ -85,7 +85,10 @@
         document.getElementById('form-curso').addEventListener('submit', async (e) => {
             e.preventDefault();
             const id = document.getElementById('curso-id').value;
-            const body = { nome: document.getElementById('curso-nome').value, sigla: document.getElementById('curso-sigla').value || null };
+            const body = {
+                nome: document.getElementById('curso-nome').value,
+                sigla: document.getElementById('curso-sigla').value || null
+            };
             try {
                 if(id) await apiPut('/cursos/'+ id, body);
                 else await apiPost('/cursos', body);
@@ -97,7 +100,11 @@
             }
         });
 
-        document.getElementById('btn-reset').addEventListener('click', ()=>{ document.getElementById('form-curso').reset(); document.getElementById('curso-id').value='';});
+        document.getElementById('btn-reset').addEventListener('click', () => {
+            document.getElementById('form-curso').reset();
+            document.getElementById('curso-id').value='';
+        });
+
         window.addEventListener('load', carregar);
 
     </script>

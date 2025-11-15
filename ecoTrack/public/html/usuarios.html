@@ -68,6 +68,7 @@
 
     <script src="../js/api.js"></script>
     <script>
+
         async function carregarCursos() {
             try {
                 const cursos = await apiGet('/cursos');
@@ -134,7 +135,7 @@
         }
 
         async function excluir(id) {
-            if (!confirm('Confirma exclusão?')) return;
+            if(!confirm('Confirma exclusão?')) return;
             try {
                 await apiDelete('/usuario/' + id);
                 carregar();
@@ -157,7 +158,7 @@
                 senha: document.getElementById('senha').value
             };
             try {
-                if (id) await apiPut('/usuarios/' + id, body);
+                if(id) await apiPut('/usuarios/' + id, body);
                 else await apiPost('/usuarios/', body);
                 document.getElementById('btn-reset').click();
                 carregar();
@@ -177,6 +178,7 @@
             await carregarCampi();
             carregar();
         });
+
     </script>
 </body>
 </html>

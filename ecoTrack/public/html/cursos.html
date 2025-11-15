@@ -6,14 +6,23 @@
         <link rel="stylesheet" href="../css/styles.css">
     </head>
     <body>
-    <header><h1>Cursos</h1><nav><a href="index.html">Voltar</a></nav></header>
+    <header>
+        <h1>Cursos</h1>
+        <nav>
+            <a href="index.html">Voltar</a>
+        </nav>
+    </header>
     <main class="container">
     <section>
         <h2>Criar / Editar Curso</h2>
         <form id="form-curso">
         <input type="hidden" id="curso-id">
-        <label>Nome <input id="curso-nome" required></label>
-        <label>Sigla <input id="curso-sigla"></label>
+        <label>Nome:
+            <input id="curso-nome" required>
+        </label>
+        <label>Sigla:
+            <input id="curso-sigla">
+        </label>
         <div class="actions">
             <button>Salvar</button>
             <button type="button" id="btn-reset" class="secondary">Limpar</button>
@@ -23,49 +32,73 @@
 
     <section>
         <h2>Lista</h2>
-        <table id="tbl-cursos"><thead><tr><th>ID</th><th>Nome</th><th>Sigla</th><th>Ações</th></tr></thead><tbody></tbody></table>
+        <table id="tbl-cursos">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Sigla</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </section>
     </main>
-    <script src="api.js"></script>
+
+    <script src="../js/api.js"></script>
     <script>
-    async function carregar(){
-    try{
-        const rows = await apiGet('/cursos');
-        const t = document.querySelector('#tbl-cursos tbody'); t.innerHTML='';
-        rows.forEach(r=>{
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${r.ID}</td><td>${r.nome}</td><td>${r.sigla||''}</td>
-            <td class="actions">
-            <button onclick="editar(${r.ID})" class="small">Editar</button>
-            <button onclick="excluir(${r.ID})" class="small secondary">Excluir</button>
-            </td>`;
-        t.appendChild(tr);
+
+        async function carregar(){
+            try {
+                const rows = await apiGet('/cursos');
+                const t = document.querySelector('#tbl-cursos tbody');
+                t.innerHTML = '';
+                rows.forEach(r => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${r.ID}</td><td>${r.nome}</td><td>${r.sigla || ''}</td>
+                        <td class="actions">
+                        <button onclick="editar(${r.ID})" class="small">Editar</button>
+                        <button onclick="excluir(${r.ID})" class="small secondary">Excluir</button>
+                        </td>`;
+                    t.appendChild(tr);
+                });
+            }catch(e) {
+                showError(e);
+            }
+        }
+
+        async function editar(id){
+            const r = await apiGet('/cursos/' + id);
+            document.getElementById('curso-id').value = r.ID;
+            document.getElementById('curso-nome').value = r.nome;
+            document.getElementById('curso-sigla').value = r.sigla || '';
+        }
+
+        async function excluir(id){
+            if(!confirm('Excluir?')) return;
+            await apiDelete('/cursos/'+ id);
+            carregar();
+        }
+
+        document.getElementById('form-curso').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('curso-id').value;
+            const body = { nome: document.getElementById('curso-nome').value, sigla: document.getElementById('curso-sigla').value || null };
+            try {
+                if(id) await apiPut('/cursos/'+ id, body);
+                else await apiPost('/cursos', body);
+                document.getElementById('btn-reset').click();
+                carregar();
+            }
+            catch(e) {
+                showError(e);
+            }
         });
-    }catch(e){ showError(e); }
-    }
-    async function editar(id){
-    const r = await apiGet('/cursos/'+id);
-    document.getElementById('curso-id').value = r.ID;
-    document.getElementById('curso-nome').value = r.nome;
-    document.getElementById('curso-sigla').value = r.sigla || '';
-    }
-    async function excluir(id){
-    if(!confirm('Excluir?')) return;
-    await apiDelete('/cursos/'+id);
-    carregar();
-    }
-    document.getElementById('form-curso').addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    const id = document.getElementById('curso-id').value;
-    const body = { nome: document.getElementById('curso-nome').value, sigla: document.getElementById('curso-sigla').value||null };
-    try{
-        if(id) await apiPut('/cursos/'+id, body);
-        else await apiPost('/cursos', body);
-        document.getElementById('btn-reset').click(); carregar();
-    }catch(e){ showError(e); }
-    });
-    document.getElementById('btn-reset').addEventListener('click', ()=>{ document.getElementById('form-curso').reset(); document.getElementById('curso-id').value='';});
-    window.addEventListener('load', carregar);
+        
+        document.getElementById('btn-reset').addEventListener('click', ()=>{ document.getElementById('form-curso').reset(); document.getElementById('curso-id').value='';});
+        window.addEventListener('load', carregar);
+
     </script>
     </body>
 </html>

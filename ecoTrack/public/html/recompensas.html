@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <title>Recompensas</title>
+    <link rel="stylesheet" href="../css/styles.css"></head>
+<body>
+    <header>
+        <h1>Recompensas</h1>
+        <nav>
+            <a href="index.html">Voltar</a>
+        </nav>
+    </header>
+
+    <main class="container">
+    <form id="form-rec"><input type="hidden" id="rec-id">
+        <label>Nome:
+            <input id="rec-nome" required>
+        </label>
+        <label>Descrição:
+            <input id="rec-desc">
+        </label>
+        <label>Pontos necessários:
+            <input id="rec-pts" type="number" required>
+        </label>
+        <label>Tipo:
+            <select id="rec-tipo">
+                <option value="desconto">desconto</option>
+                <option value="item">item</option>
+                <option value="horas">horas</option>
+                <option value="comprovante">comprovante</option>
+            </select>
+        </label>
+        <div class="actions">
+            <button>Salvar</button>
+            <button type="button" id="reset" class="secondary">Limpar</button>
+        </div>
+    </form>
+
+    <h2>Lista</h2>
+    <table id="tbl-recomp">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Pontos</th>
+                <th>Tipo</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    </main>
+
+    <script src="api.js"></script>
+    <script>
+
+        async function carregar(){ const rows=await apiGet('/recompensas'); const t=document.querySelector('#tbl-recomp tbody'); t.innerHTML=''; rows.forEach(r=> t.innerHTML+=`<tr><td>${r.ID}</td><td>${r.nome}</td><td>${r.pontos_necessarios}</td><td>${r.tipo}</td><td class="actions"><button onclick="editar(${r.ID})" class="small">Editar</button><button onclick="excluir(${r.ID})" class="small secondary">Excluir</button></td></tr>`); }
+        async function editar(id){ const r=await apiGet('/recompensas/'+id); document.getElementById('rec-id').value=r.ID; document.getElementById('rec-nome').value=r.nome; document.getElementById('rec-desc').value=r.descricao||''; document.getElementById('rec-pts').value=r.pontos_necessarios; document.getElementById('rec-tipo').value=r.tipo;}
+        async function excluir(id){ if(!confirm('Excluir?')) return; await apiDelete('/recompensas/'+id); carregar(); }
+        document.getElementById('form-rec').addEventListener('submit', async e=>{ e.preventDefault(); const id=document.getElementById('rec-id').value; const body={ nome:document.getElementById('rec-nome').value, descricao:document.getElementById('rec-desc').value||null, pontos_necessarios:parseInt(document.getElementById('rec-pts').value), tipo:document.getElementById('rec-tipo').value }; if(id) await apiPut('/recompensas/'+id,body); else await apiPost('/recompensas',body); document.getElementById('reset').click(); carregar();});
+        document.getElementById('reset').addEventListener('click', ()=>{ document.getElementById('form-rec').reset(); document.getElementById('rec-id').value='';});
+        window.addEventListener('load', carregar);
+
+    </script>
+</body>
+</html>

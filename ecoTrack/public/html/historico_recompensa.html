@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <title>Histórico Resgates</title>
+    <link rel="stylesheet" href="../css/styles.css"></head>
+<body>
+    <header>
+        <h1>Histórico de Resgates</h1>
+        <nav>
+            <a href="index.html">Voltar</a>
+        </nav>
+    </header>
+
+    <main class="container">
+    <form id="form-hr">
+        <input type="hidden" id="hr-id">
+        <label>Usuário ID:
+            <input id="hr-usuario" type="number" required>
+        </label>
+        <label>Recompensa ID:
+            <input id="hr-recomp" type="number" required>
+        </label>
+        <div class="actions">
+            <button>Registrar Resgate</button>
+            <button type="button" id="reset" class="secondary">Limpar</button>
+        </div>
+    </form>
+
+    <h2>Lista</h2>
+    <table id="tbl-hr">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Usuário</th>
+                <th>Recompensa</th>
+                <th>Data</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    </main>
+
+    <script src="../js/api.js"></script>
+    <script>
+
+        async function carregar() {
+            const rows = await apiGet('/historico_recompensa');
+            const t = document.querySelector('#tbl-hr tbody');
+            t.innerHTML = '';
+            rows.forEach(r => {
+                t.innerHTML += `
+                <tr>
+                    <td>${r.ID}</td>
+                    <td>${r.usuario_id}</td>
+                    <td>${r.recompensa_id}</td>
+                    <td>${r.criado_em}</td>
+                    <td class="actions">
+                        <button onclick="excluir(${r.ID})" class="small secondary">Excluir</button>
+                    </td>
+                </tr>`
+            });
+        }
+
+        document.getElementById('form-hr').addEventListener('submit', async e => {
+            e.preventDefault();
+            const body = {
+                usuario_id: parseInt(document.getElementById('hr-usuario').value),
+                recompensa_id: parseInt(document.getElementById('hr-recomp').value)
+            };
+            await apiPost('/historico_recompensa', body);
+            document.getElementById('reset').click();
+            carregar();
+        });
+
+        async function excluir(id) {
+            if(!confirm('Excluir?')) return;
+            await apiDelete('/historico_recompensa/'+ id);
+            carregar();
+        }
+
+        document.getElementById('reset').addEventListener('click', () => {
+            document.getElementById('form-hr').reset();
+        });
+
+        window.addEventListener('load', carregar);
+
+    </script>
+</body>
+</html>

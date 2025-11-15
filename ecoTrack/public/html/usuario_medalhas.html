@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8"/>
+    <title>Usuário Medalhas</title>
+    <link rel="stylesheet" href="../css/styles.css"></head>
+<body>
+    <header>
+        <h1>Usuário Medalhas</h1>
+        <nav>
+            <a href="index.html">Voltar</a>
+        </nav>
+    </header>
+
+    <main class="container">
+    <form id="form-um">
+        <input type="hidden" id="um-id">
+        <label>Usuário ID:
+            <input id="um-usuario" type="number" required>
+        </label>
+        <label>Medalha ID:
+            <input id="um-medalha" type="number" required>
+        </label>
+        <div class="actions">
+            <button>Registrar</button>
+            <button type="button" id="reset" class="secondary">Limpar</button>
+        </div>
+    </form>
+
+    <h2>Lista</h2>
+    <table id="tbl-um">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Usuário</th>
+                <th>Medalha</th>
+                <th>Recebido em</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    </main>
+
+    <script src="../js/api.js"></script>
+    <script>
+
+        async function carregar() {
+            const rows = await apiGet('/usuario_medalhas');
+            const t = document.querySelector('#tbl-um tbody');
+            t.innerHTML = '';
+            rows.forEach(r => {
+                t.innerHTML += `
+                <tr>
+                    <td>${r.ID}</td>
+                    <td>${r.usuario_id}</td>
+                    <td>${r.medalha_id}</td>
+                    <td>${r.recebido_em}</td>
+                    <td class="actions">
+                        <button onclick="excluir(${r.ID})" class="small secondary">Excluir</button>
+                    </td>
+                </tr>`
+            });
+        }
+
+        document.getElementById('form-um').addEventListener('submit', async e => {
+            e.preventDefault();
+            const body = {
+                usuario_id: parseInt(document.getElementById('um-usuario').value),
+                medalha_id: parseInt(document.getElementById('um-medalha').value)
+            };
+            await apiPost('/usuario_medalhas', body);
+            document.getElementById('reset').click();
+            carregar();
+        });
+
+        async function excluir(id) {
+            if(!confirm('Excluir?')) return;
+            await apiDelete('/usuario_medalhas/'+ id);
+            carregar();
+        }
+
+        document.getElementById('reset').addEventListener('click', () => {
+            document.getElementById('form-um').reset();
+        });
+
+        window.addEventListener('load', carregar);
+
+    </script>
+</body>
+</html>

@@ -2,31 +2,27 @@
 <html lang="pt-BR">
 <head>
     <meta charset="utf-8"/>
-    <title>Tipos de Resíduos</title>
-    <link rel="stylesheet" href="../css/styles.css">
-</head>
+    <title>Medalhas</title>
+    <link rel="stylesheet" href="../css/styles.css"></head>
 <body>
     <header>
-        <h1>Tipos de Resíduos</h1>
+        <h1>Medalhas</h1>
         <nav>
             <a href="index.html">Voltar</a>
         </nav>
     </header>
 
     <main class="container">
-    <form id="form-tr">
-        <input type="hidden" id="tr-id">
+    <form id="form-med">
+        <input type="hidden" id="med-id">
         <label>Nome:
-            <input id="tr-nome" required>
+            <input id="med-nome" required>
         </label>
         <label>Descrição:
-            <input id="tr-desc">
+            <input id="med-desc">
         </label>
-        <label>Pontos por kg:
-            <input id="tr-pontos" type="number" step="0.01" required>
-        </label>
-        <label>Cor (hex):
-            <input id="tr-cor">
+        <label>Ícone (URL):
+            <input id="med-icone">
         </label>
         <div class="actions">
             <button>Salvar</button>
@@ -35,12 +31,12 @@
     </form>
 
     <h2>Lista</h2>
-    <table id="tbl-tr">
+    <table id="tbl-med">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nome</th>
-                <th>Pontos/kg</th>
+                <th>Descrição</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -52,15 +48,15 @@
     <script>
 
         async function carregar() {
-            const rows = await apiGet('/tipos_residuos');
-            const t = document.querySelector('#tbl-tr tbody');
+            const rows = await apiGet('/medalhas');
+            const t = document.querySelector('#tbl-med tbody');
             t.innerHTML = '';
             rows.forEach(r => {
                 t.innerHTML += `
                 <tr>
                     <td>${r.ID}</td>
                     <td>${r.nome}</td>
-                    <td>${r.pontos}</td>
+                    <td>${r.descricao || ''}</td>
                     <td class="actions">
                         <button onclick="editar(${r.ID})" class="small">Editar</button>
                         <button onclick="excluir(${r.ID})" class="small secondary">Excluir</button>
@@ -70,42 +66,40 @@
         }
 
         async function editar(id) {
-            const r = await apiGet('/tipos_residuos/'+ id);
-            document.getElementById('tr-id').value=r.ID;
-            document.getElementById('tr-nome').value=r.nome;
-            document.getElementById('tr-desc').value=r.descricao || '';
-            document.getElementById('tr-pontos').value=r.pontos;
-            document.getElementById('tr-cor').value=r.cor || '';
+            const r = await apiGet('/medalhas/'+ id);
+            document.getElementById('med-id').value=r.ID;
+            document.getElementById('med-nome').value=r.nome;
+            document.getElementById('med-desc').value=r.descricao || '';
+            document.getElementById('med-icone').value=r.icone || '';
         }
 
         async function excluir(id) {
             if(!confirm('Excluir?')) return;
-            await apiDelete('/tipos_residuos/'+ id);
+            await apiDelete('/medalhas/'+ id);
             carregar();
         }
 
-        document.getElementById('form-tr').addEventListener('submit', async e => {
+        document.getElementById('form-med').addEventListener('submit', async e => {
             e.preventDefault();
-            const id = document.getElementById('tr-id').value;
+            const id = document.getElementById('med-id').value;
             const body = {
-                nome: document.getElementById('tr-nome').value,
-                descricao: document.getElementById('tr-desc').value || null,
-                pontos: parseFloat(document.getElementById('tr-pontos').value),
-                cor: document.getElementById('tr-cor').value || null
+                nome: document.getElementById('med-nome').value,
+                descricao: document.getElementById('med-desc').value || null,
+                icone: document.getElementById('med-icone').value || null
             };
-            if(id) await apiPut('/tipos_residuos/'+ id, body);
-            else await apiPost('/tipos_residuos', body);
+            if(id) await apiPut('/medalhas/'+ id, body);
+            else await apiPost('/medalhas', body);
             document.getElementById('reset').click();
             carregar();
         });
 
         document.getElementById('reset').addEventListener('click', () => {
-            document.getElementById('form-tr').reset();
-            document.getElementById('tr-id').value='';
+            document.getElementById('form-med').reset();
+            document.getElementById('med-id').value='';
         });
 
         window.addEventListener('load', carregar);
 
     </script>
-</body>
+    </body>
 </html>

@@ -1,1 +1,17 @@
+*{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Arial,sans-serif}
+body{margin:0;background:#f5f8fa;color:#0f172a}
+header{background:linear-gradient(90deg,#0ea5a4,#2563eb);color:#fff;padding:16px}
+header h1{margin:0 0 8px 0;font-size:20px}
+nav a{color:#fff;margin-right:12px;text-decoration:none;padding:6px 8px;border-radius:6px}
+nav a:hover{background:rgba(255,255,255,0.12)}
+main{padding:16px}
+.container{max-width:1100px;margin:0 auto;background:#fff;padding:16px;border-radius:8px;box-shadow:0 6px 18px rgba(2,6,23,0.08)}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th,td{padding:8px;border:1px solid #e6eef7;text-align:left}
+form > *{display:block;margin:8px 0}
+input[type=text],input[type=number],select,textarea{padding:8px;border-radius:6px;border:1px solid #cfe3ff;width:100%}
+button{padding:8px 12px;border-radius:6px;border:0;background:#0ea5a4;color:#fff;cursor:pointer}
+button.secondary{background:#6b7280}
+.actions{display:flex;gap:8px}
+.small{padding:4px 8px;font-size:13px}
 

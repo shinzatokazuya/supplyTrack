@@ -18,9 +18,164 @@
             <h2>Criar / Editar Usuário</h2>
             <form id="form-usuário">
                 <input id="usuario-id" type="hidden">
-                <label>Nome: <input id="nome" required></label>
+                <label>Nome:
+                    <input id="nome" required>
+                </label>
+                <label>Email:
+                    <input id="email" type="text" required>
+                </label>
+                <label>RA:
+                    <input id="ra">
+                </label>
+                <label>Curso:
+                    <select id="Curso">
+                    </select>
+                </label>
+                <label>Campus:
+                    <select id="campus">
+                    </select>
+                </label>
+                <label>Tipo
+                    <select id="tipo_usuario">
+                        <option value="estudante">Estudante</option>
+                        <option value="voluntario">Voluntário</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </label>
+                <label>Senha:
+                    <input id="senha" type="password" required>
+                </label>
             </form>
         </section>
+
+        <section>
+            <h2>Lista de Usuários</h2>
+            <table id="tbl-usuarios">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Tipo</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
     </main>
+
+    <script src="../js/api.js"></script>
+    <script>
+        async function carregarCursos() {
+            try {
+                const cursos = await apiGet('/cursos');
+                const sel = document.getElementById('cursos');
+                sel.innerHTML = '<option value=""></option>';
+                cursos.forEach(c => sel.innerHTML += `<option value="${c.ID}">${c.nome}</option>`);
+            }
+            catch(e) {
+                showError(e);
+            }
+        }
+
+        async function carregarCampi() {
+            try {
+                const campi = await apiGet('/campi');
+                const sel = document.getElementById('campus');
+                sel.innerHTML = '<option value=""></option>';
+                campi.forEach(c => sel.innerHTML += `<option value="${c.ID}">${c.nome}</option>`);
+            }
+            catch(e) {
+                showError(e);
+            }
+        }
+
+        async function carregar() {
+            try {
+                const usuarios = await apiGet('/usuario');
+                const tbody = document.querySelector('#tbl-usuarios tbody');
+                tbody.innerHTML = '';
+                usuarios.forEach(u => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${u.ID}</td>
+                        <td>${u.nome}</td>
+                        <td>${u.email}</td>
+                        <td>${u.tipo_usuario}</td>
+                        <td class="actions">
+                            <button onclick="editar(${u.ID})" class="small">Editar</button>
+                            <button onclick="excluir(${u.ID})" class="small secondary">Excluir</button>
+                        </td>`;
+                        tbody.appendChild(tr);
+                });
+            }
+            catch(e) {
+                showError(e);
+            }
+        }
+
+        async function editar(id) {
+            try {
+                const u = await apiGet('/usuarios/' + id);
+                document.getElementById('usuario-id').value = u.ID;
+                document.getElementById('nome').value = u.nome;
+                document.getElementById('email').value = u.email;
+                document.getElementById('ra').value = u.ra || '';
+                document.getElementById('curso').value = u.curso_id || '';
+                document.getElementById('campus').value = u.campus_id || '';
+                document.getElementById('tipo_usuario').value = u.tipo_usuario;
+                document.getElementById('senha').value = u.senha;
+            }
+            catch(e) {
+                showError(e);
+            }
+        }
+
+        async function excluir(id) {
+            if (!confirm('Confirma exclusão?')) return;
+            try {
+                await apiDelete('/usuario/' + id);
+                carregar();
+            }
+            catch(e) {
+                showError(e);
+            }
+        }
+
+        document.getElementById('form-usuario').addEventListener('submit', async (ev) => {
+            ev.preventDefault();
+            const id = document.getElementById('usuarios-id').value;
+            const body = {
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                ra: document.getElementById('ra').value || null,
+                curso_id: document.getElementById('curso').value || null,
+                campus_id: document.getElementById('campus').value || null,
+                tipo_usuario: document.getElementById('tipo_usuario').value,
+                senha: document.getElementById('senha').value
+            };
+            try {
+                if (id) await apiPut('/usuarios/' + id, body);
+                else await apiPost('/usuarios/', body);
+                document.getElementById('btn-reset').click();
+                carregar();
+            }
+            catch(e) {
+                showError(e);
+            }
+        });
+
+        document.getElementById('btn-reset').addEventListener('click', () => {
+            document.getElementById('form-usuario').reset();
+            document.getElementById('usuario-id').value = '';
+        });
+
+        window.addEventListener('load', async () => {
+            await carregarCursos();
+            await carregarCampi();
+            carregar();
+        });
+    </script>
 </body>
 </html>

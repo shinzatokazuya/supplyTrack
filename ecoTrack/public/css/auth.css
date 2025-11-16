@@ -1,0 +1,325 @@
+/* ========================================
+   ESTILOS PARA PÁGINAS DE AUTENTICAÇÃO
+   Login e Cadastro compartilham estes estilos
+   ======================================== */
+
+/* ========================================
+   ESTILOS PARA PÁGINAS DE AUTENTICAÇÃO
+   Login e Cadastro compartilham estes estilos
+   ======================================== */
+
+/* Container que ocupa toda a tela e centraliza o conteúdo */
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: var(--espacamento-lg);
+}
+
+/* Card principal de autenticação */
+.auth-card {
+    background: var(--cor-branco);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: var(--espacamento-xl);
+    width: 100%;
+    max-width: 450px;
+    animation: slideIn 0.5s ease;
+}
+
+/* Animação de entrada do card */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Seção do logo/marca */
+.auth-logo-section {
+    text-align: center;
+    margin-bottom: var(--espacamento-xl);
+}
+
+/* Círculo com ícone/emoji do logo */
+.auth-logo {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    margin-bottom: var(--espacamento-md);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* Título principal da página de auth */
+.auth-titulo {
+    color: var(--cor-texto-principal);
+    font-size: 28px;
+    margin-bottom: var(--espacamento-sm);
+    font-weight: 700;
+}
+
+/* Subtítulo/descrição */
+.auth-subtitulo {
+    color: var(--cor-texto-secundario);
+    font-size: 14px;
+    margin-bottom: 0;
+}
+
+/* Formulário de autenticação */
+.auth-form {
+    margin-top: var(--espacamento-lg);
+}
+
+/* Grupos de input com espaçamento adequado */
+.auth-form .form-group {
+    margin-bottom: var(--espacamento-lg);
+}
+
+/* Labels dos inputs */
+.auth-form .form-label {
+    display: block;
+    color: var(--cor-texto-principal);
+    font-weight: 600;
+    margin-bottom: var(--espacamento-sm);
+    font-size: 14px;
+}
+
+/* Inputs do formulário de autenticação */
+.auth-form .form-input,
+.auth-form .form-select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: all var(--transicao-normal);
+    font-family: inherit;
+}
+
+/* Estado de foco dos inputs */
+.auth-form .form-input:focus,
+.auth-form .form-select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Mensagem de erro específica para auth */
+.auth-erro {
+    background: #fee;
+    color: #c33;
+    padding: var(--espacamento-md);
+    border-radius: 8px;
+    margin-bottom: var(--espacamento-md);
+    font-size: 14px;
+    border-left: 4px solid var(--cor-perigo);
+    display: none;
+}
+
+/* Quando o erro está visível */
+.auth-erro.ativo {
+    display: block;
+    animation: shake 0.5s;
+}
+
+/* Animação de chacoalhar para erros */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+/* Botão de submit do formulário */
+.auth-botao {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transicao-normal);
+}
+
+/* Efeito hover do botão */
+.auth-botao:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* Estado ativo do botão (quando clicado) */
+.auth-botao:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+/* Botão desabilitado */
+.auth-botao:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Link para alternar entre login e cadastro */
+.auth-link-alternativo {
+    text-align: center;
+    margin-top: var(--espacamento-lg);
+    color: var(--cor-texto-secundario);
+    font-size: 14px;
+}
+
+/* Link clicável dentro do texto */
+.auth-link-alternativo a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color var(--transicao-rapida);
+}
+
+.auth-link-alternativo a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
+
+/* Divisor visual "ou" */
+.auth-divisor {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: var(--espacamento-lg) 0;
+    color: var(--cor-texto-secundario);
+    font-size: 14px;
+}
+
+.auth-divisor::before,
+.auth-divisor::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.auth-divisor span {
+    padding: 0 var(--espacamento-md);
+}
+
+/* Checkbox com label customizado */
+.auth-checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--espacamento-sm);
+    font-size: 14px;
+    color: var(--cor-texto-secundario);
+}
+
+.auth-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* Link "Esqueceu a senha?" */
+.auth-link-esqueceu {
+    text-align: right;
+    margin-top: var(--espacamento-sm);
+    font-size: 14px;
+}
+
+.auth-link-esqueceu a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+.auth-link-esqueceu a:hover {
+    text-decoration: underline;
+}
+
+/* Indicador de força de senha */
+.senha-forca {
+    margin-top: var(--espacamento-sm);
+    height: 4px;
+    background-color: var(--cor-borda);
+    border-radius: var(--raio-pequeno);
+    overflow: hidden;
+}
+
+.senha-forca-barra {
+    height: 100%;
+    transition: all var(--transicao-normal);
+    border-radius: var(--raio-pequeno);
+}
+
+.senha-forca-barra.fraca {
+    width: 33%;
+    background-color: var(--cor-perigo);
+}
+
+.senha-forca-barra.media {
+    width: 66%;
+    background-color: var(--cor-alerta);
+}
+
+.senha-forca-barra.forte {
+    width: 100%;
+    background-color: var(--cor-sucesso);
+}
+
+/* Texto de ajuda abaixo dos inputs */
+.auth-help-text {
+    font-size: 12px;
+    color: var(--cor-texto-claro);
+    margin-top: var(--espacamento-xs);
+}
+
+/* Estado de loading no botão */
+.auth-botao.loading {
+    position: relative;
+    color: transparent;
+}
+
+.auth-botao.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 2px solid #ffffff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 480px) {
+    .auth-card {
+        padding: var(--espacamento-lg);
+        border-radius: 15px;
+    }
+
+    .auth-logo {
+        width: 60px;
+        height: 60px;
+        font-size: 30px;
+    }
+
+    .auth-titulo {
+        font-size: 24px;
+    }
+
+    .auth-container {
+        padding: var(--espacamento-md);
+    }
+}

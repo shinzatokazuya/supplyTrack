@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt=BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | EcoTrack</title>
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+    <!-- Container principal -->
+    <div class="auth-container">
+
+        <!-- Card com o fomulário de Login -->
+        <div class="auth-card">
+
+            <!-- Seção do Logo e Título -->
+            <div class="auth-logo-section">
+                <div class="auth-logo"></div>
+
+                <!-- Título Principal -->
+                <h1 class="auth-titulo">Login | EcoTrack</h1>
+
+                <!-- Subtítulo/descrição -->
+                 <p class="auth-subtitulo">Sistema de reciclagem divertido e com benefícios</p>
+            </div>
+
+            <!-- Mensagem de erro (inicialmente oculta)-->
+             <div id="mensagem-erro" class="auth-erro"></div>
+
+             <!-- Formulário de Login -->
+              <form id="form-login" class="auth-form">
+
+                <!-- Email -->
+                 <div class="form-group">
+                    <label for="email" class="form-label">Email: </label>
+                    <input
+                        id="email"
+                        type="email"
+                        class="form-input"
+                        placeholder="exemplo@email.com"
+                        autocomplete="email"
+                        required
+                    >
+                 </div>
+
+                <!-- Senha -->
+                 <div class="form-group">
+                    <label for="senha" class="form-label">Senha: </label>
+                    <input
+                        id="senha"
+                        type="password"
+                        class="form-input"
+                        placeholder="••••••••"
+                        autocomplete="current-password"
+                        required
+                    >
+                 </div>
+
+                <!-- Botão de entrar -->
+                 <button id="btn-entrar" type="submit" class="auth-botao">
+                    Entrar
+                 </button>
+
+              </form>
+
+              <!-- Link para a página de cadastro -->
+               <div class="auth-link-alternativo">
+                    Não tem uma conta?
+                    <a href="cadastro.html">Cadastre-se</a>
+               </div>
+               
+        </div>
+    </div>
+
+    <!-- Importação dos arquivos JavaScript -->
+     <script src="../js/api.js"></script>
+     <script src="../js/utils.js"></script>
+
+     <!-- Script específico desta página -->
+      <script>
+
+          document.addEventListener('DOMContentLoaded', function() {
+            // Obtém referências aos elementos da página
+            const fomulario = document.getElementById('form-login');
+            const inputEmail = document.getElementById('email');
+            const inputSenha = document.getElementById('senha');
+            const btnEntrar = document.getElementById('btn-entrar');
+            const mensagemErro = document.getElementById('mensagem-erro');
+
+            /**
+             * Função que esconde a mensagem de erro
+             * Chamada quando o usuário começa a digitar novamente
+             */
+            function esconderErro() {
+                mensagemErro.classList.remove('ativo');
+                mensagemErro.textContent = '';
+            }
+
+            /**
+             * Função que exibe uma mensagem de erro
+             */
+            function exibirErro(mensagem) {
+                mensagemErro.textContent = mensagem;
+                mensagemErro.classList.add('ativo');
+            }
+
+             /**
+             * Função que altera o estado de loading do botão
+             */
+            function setLoading(loading) {
+                if (loading) {
+                    btnEntrar.disabled = true;
+                    btnEntrar.classList.add('loading');
+                    btnEntrar.textContent = '';
+                } else {
+                    btnEntrar.disabled = false;
+                    btnEntrar.classList.remove('loading');
+                    btnEntrar.textContent = 'Entrar';
+                }
+            }
+
+            /**
+             * Redireciona o usuário para a página apropriada
+             * baseado no tipo de usuário (estudante, voluntario, admin)
+             */
+            function redirecionarUsuario(usuario) {
+                // Define a página de destino baseada no tipo de usuário
+                let paginaDestino;
+
+                switch(usuario.tipo_usuario) {
+                    case 'estudante':
+                        paginaDestino = 'estudante/dashboard.html';
+                        break;
+                    case 'voluntario':
+                        paginaDestino = 'voluntario/dashboard.html';
+                        break;
+                    case 'admin':
+                        paginaDestino = 'admin/dashboard.html';
+                        break;
+                    default:
+                        // Se o tipo não for reconhecido, vai para página inicial
+                        paginaDestino = 'index.html';
+                }
+
+                // Redireciona para a página
+                window.location.href = paginaDestino;
+            }
+
+            /**
+             * Função principal que processa o login
+             * É chamada quando o formulário é submetido
+             */
+            async function processarLogin(evento) {
+                // Previne o comportamento padrão do formulário (recarregar a página)
+                evento.preventDefault();
+
+                // Esconde qualquer mensagem de erro anterior
+                esconderErro();
+
+                // Obtém os valores digitados pelo usuário
+                const email = inputEmail.value.trim();
+                const senha = inputSenha.value;
+
+                // Validação básica dos campos
+                if (!email || !senha) {
+                    exibirErro('Por favor, preencha todos os campos');
+                    return;
+                }
+
+                // Valida se o email tem formato correto
+                if (!validarEmail(email)) {
+                    exibirErro('Por favor, digite um email válido');
+                    return;
+                }
+
+                // Ativa o estado de loading
+                setLoading(true);
+
+                try {
+                    // Faz a requisição de login para o servidor
+                    // A função fazerLogin está definida em api.js
+                    const usuario = await fazerLogin(email, senha);
+
+                    // Redireciona para a página apropriada
+                    redirecionarUsuario(usuario);
+
+                } catch (erro) {
+                    // Se houve erro, exibe a mensagem
+                    exibirErro(erro.message || 'Erro ao fazer login. Tente novamente.');
+
+                } finally {
+                    // Desativa o loading
+                    setLoading(false);
+                }
+            }
+
+            // Adiciona o evento de submit ao formulário
+            formulario.addEventListener('submit', processarLogin);
+
+            // Esconde erro quando usuário começa a digitar
+            inputEmail.addEventListener('input', esconderErro);
+            inputSenha.addEventListener('input', esconderErro);
+
+            // Permite fazer login pressionando Enter no campo de senha
+            inputSenha.addEventListener('keypress', function(evento) {
+                if (evento.key === 'Enter') {
+                    evento.preventDefault();
+                    formulario.dispatchEvent(new Event('submit'));
+                }
+            });
+
+            /**
+             * Verifica se já existe um usuário logado
+             * Se sim, redireciona direto para o dashboard
+             */
+            const usuarioLogado = obterSessao();
+            if (usuarioLogado) {
+                redirecionarUsuario(usuarioLogado);
+            }
+
+          });
+
+      </script>
+
+</body>
+</html>

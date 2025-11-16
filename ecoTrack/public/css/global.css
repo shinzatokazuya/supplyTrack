@@ -1,0 +1,336 @@
+/* =========================================================
+   ESTILOS GLOBAIS DO ECOTRACK
+   Este Arquivo contém estilos base que serão
+   usados em todas as páginas do sistema.
+   ========================================================= */
+
+/* Reset básico para garantir consistência entre navegadores */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Variáveis CSS para cores e espaçamentos consistentes em todo o projeto */
+:root {
+    /* Cores principais do tema */
+    --cor-primaria: #10b981;
+    --cor-primaria-escura: #059669;
+    --cor-secundaria: #3b82f6;
+    --cor-secundaria-escura: #2563eb;
+    --cor-acento: #8b5cf6;
+    --cor-alerta: #f59e0b;
+    --cor-perigo: #ef4444;
+    --cor-sucesso: #10b981;
+
+    /* Cores de texto */
+    --cor-texto-principal: #1f2937;
+    --cor-texto-secundario: #6b7280;
+    --cor-texto-claro: #9ca3af;
+
+    /* Cores de fundo */
+    --cor-fundo: #f9fafb;
+    --cor-fundo-escuro: #f3f4f6;
+    --cor-branco: #ffffff;
+
+    /* Bordas */
+    --cor-borda: #e5e7eb;
+    --cor-borda-escura: #d1d5db;
+
+    /* Sombras */
+    --sombra-pequena: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --sombra-media: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --sombra-grande: 0 10px 5px rgba(0, 0, 0, 0.15);
+
+    /* Espaçamentos */
+    --espacamento-xs: 4px;
+    --espacamento-sm: 8px;
+    --espacamento-md: 16px;
+    --espacamento-lg: 24px;
+    --espacamento-xl: 32px;
+
+    /* Raios de borda */
+    --raio-pequeno: 4px;
+    --raio-medio: 8px;
+    --raio-grande: 12px;
+    --raio-completo: 9999px;
+
+    /* Transições */
+    --transicao-rapida: 150ms ease;
+    --transicao-normal: 300ms ease;
+}
+
+/* Configurações base do body */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto-principal);
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+/* Tipografia */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: var(--espacamento-md);
+    color: var(--cor-texto-principal);
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+p {
+    margin-bottom: var(--espacamento-md);
+}
+
+/* Links */
+a {
+    color: var(--cor-primaria);
+    text-decoration: none;
+    transition: color var(--transicao-rapida);
+}
+
+a:hover {
+    color: var(--cor-primaria-escura);
+    text-decoration: underline;
+}
+
+/* Container principal para centralizar conteúdo */
+.container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--espacamento-lg);
+}
+
+/* Container menor para formulários e conteúdo focado */
+.container-pequeno {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 var(--espacamento-lg);
+}
+
+/* Botões base */
+.btn {
+    display: inline-block;
+    padding: var(--espacamento-sm) var(--espacamento-lg);
+    border: none;
+    border-radius: var(--raio-medio);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transicao-normal);
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Variantes de botões */
+.btn-primario {
+    background-color: var(--cor-primaria);
+    color: white;
+}
+
+.btn-primario:hover:not(:disabled) {
+    background-color: var(--cor-primaria-escura);
+    transform: translateY(-2px);
+    box-shadow: var(--sombra-media);
+}
+
+.btn-secundario {
+    background-color: var(--cor-secundaria);
+    color: white;
+}
+
+.btn-secundario:hover:not(:disabled) {
+    background-color: var(--cor-secundaria-escura);
+    transform: translateY(-2px);
+}
+
+.btn-perigo {
+    background-color: var(--cor-perigo);
+    color: white;
+}
+
+.btn-perigo:hover:not(:disabled) {
+    background-color: #dc2626;
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--cor-primaria);
+    color: var(--cor-primaria);
+}
+
+.btn-outline:hover:not(:disabled) {
+    background-color: var(--cor-primaria);
+    color: white;
+}
+
+/* Formulários */
+.form-group {
+    margin-bottom: var(--espacamento-lg);
+}
+
+.form-label {
+    display: block;
+    margin-bottom: var(--espacamento-sm);
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: var(--espacamento-md);
+    border: 2px solid var(--cor-borda);
+    border-radius: var(--raio-medio);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color var(--transicao-rapida);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Cards */
+.card {
+    background-color: var(--cor-branco);
+    border-radius: var(--raio-grande);
+    padding: var(--espacamento-lg);
+    box-shadow: var(--sombra-pequena);
+    transition: box-shadow var(--transicao-normal);
+}
+
+.card:hover {
+    box-shadow: var(--sombra-media);
+}
+
+/* Grid system simples */
+.grid {
+    display: grid;
+    gap: var(--espacamento-lg);
+}
+
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* Alertas e mensagens */
+.alerta {
+    padding: var(--espacamento-md);
+    border-radius: var(--raio-medio);
+    margin-bottom: var(--espacamento-lg);
+}
+
+.alerta-sucesso {
+    background-color: #d1fae5;
+    color: #065f46;
+    border-left: 4px solid var(--cor-sucesso);
+}
+
+.alerta-erro {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border-left: 4px solid var(--cor-perigo);
+}
+
+.alerta-aviso {
+    background-color: #fef3c7;
+    color: #92400e;
+    border-left: 4px solid var(--cor-alerta);
+}
+
+.alerta-info {
+    background-color: #dbeafe;
+    color: #1e40af;
+    border-left: 4px solid var(--cor-secundaria);
+}
+
+/* Utilitários */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+
+.mt-sm { margin-top: var(--espacamento-sm); }
+.mt-md { margin-top: var(--espacamento-md); }
+.mt-lg { margin-top: var(--espacamento-lg); }
+.mt-xl { margin-top: var(--espacamento-xl); }
+
+.mb-sm { margin-bottom: var(--espacamento-sm); }
+.mb-md { margin-bottom: var(--espacamento-md); }
+.mb-lg { margin-bottom: var(--espacamento-lg); }
+.mb-xl { margin-bottom: var(--espacamento-xl); }
+
+.flex { display: flex; }
+.flex-column { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.gap-sm { gap: var(--espacamento-sm); }
+.gap-md { gap: var(--espacamento-md); }
+.gap-lg { gap: var(--espacamento-lg); }
+
+/* Loading spinner */
+.loading {
+    border: 3px solid var(--cor-borda);
+    border-top: 3px solid var(--cor-primaria);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    /* Em telas menores, grids se tornam coluna única */
+    .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+    }
+
+    /* Reduz tamanhos de fonte */
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.75rem; }
+    h3 { font-size: 1.5rem; }
+
+    /* Reduz padding do container */
+    .container {
+        padding: 0 var(--espacamento-md);
+    }
+}
+
+/* Ocultar elementos */
+.hidden {
+    display: none !important;
+}
+
+/* Desabilitar scroll quando modal está aberto */
+body.no-scroll {
+    overflow: hidden;
+}

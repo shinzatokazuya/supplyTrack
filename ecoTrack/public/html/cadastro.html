@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro | EcoTrack</title>
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+
+    <!-- Container principal -->
+     <div class="auth-container">
+
+        <!-- Card com formulário de Cadastro -->
+         <div class="auth-card">
+
+            <!-- Seção Logo e Título -->
+             <div class="auth-logo-section">
+                <div class="auth-logo"></div>
+                <h1 class="auth-titulo">Cadastro | EcoTrack</h1>
+                <p class="auth-subtitulo">Junte-se à comunidade EcoTrack</p>
+             </div>
+
+             <!-- Mensagem de feedback -->
+              <div id="mensagem-erro" class="auth-erro"></div>
+              <div id="mensagem-sucesso" class="alerta-sucesso hidden"></div>
+
+              <!-- Formulário de Cadastro -->
+               <form id="form-cadastro" class="auth-form">
+
+                <!-- Nome completo -->
+                 <div class="form-group">
+                    <label for="nome" class="form-label">Nome Completo: </label>
+                    <input
+                        id="nome"
+                        type="text"
+                        class="form-input"
+                        placeholder="Nome Completo"
+                        minlength="3"
+                        required
+                    >
+                    <small class="auth-help-text">Digite seu nome completo</small>
+                 </div>
+
+                 <!-- Email -->
+                  <div class="form-group">
+                    <label for="email" class="form-label">Email: </label>
+                    <input
+                        id="email"
+                        type="email"
+                        class="form-input"
+                        placeholder="exemplo@email.com"
+                        autocomplete="email"
+                        required
+                    >
+                    <small class="auth-help-text">Use seu email institucional (se possível)</small>
+                  </div>
+
+                  <!-- RA (Registro Acadêmico) -->
+                   <div class="form-group">
+                     <label for="ra" class="form-label"> RA (Registro Acadêmico): </label>
+                     <input
+                        id="ra"
+                        type="text"
+                        class="form-input"
+                        placeholder="1234567"
+                    >
+                    <small class="auth-help-text">Apenas para estudantes</small>
+                   </div>
+
+                   <!-- Curso -->
+                    <div class="form-group">
+                        <label for="curso" class="form-label">Curso: </label>
+                        <select id="curso" class="form-select">
+                            <option valie="">Selecionar Curso: </option>
+                        </select>
+                        <small class="auth-help-text">Apenas para estudantes</small>
+                    </div>
+
+                    <!-- Campus -->
+                     <div class="form-group">
+                        <label for="campus" class="form-label">Campus: </label>
+                        <select id="campus" class="form-select">
+                            <option value="">Selecionar Campus: </option>
+                        </select>
+                        <small class="auth-help-text">Apenas para estudantes</small>
+                     </div>
+
+                     <!-- Tipo de usuário -->
+                      <div class="form-group">
+                        <label for="tipo-usuario" class="form-label">Tipo de Usuário: </label>
+                        <select id="tipo-usuario" class="form-select" required>
+                            <option value="estudante">Estudante</option>
+                            <option value="voluntario">Voluntário</option>
+                        </select>
+                      </div>
+
+                      <!-- Senha -->
+                       <div class="form-group">
+                        <label for="senha" class="form-label">Senha: </label>
+                        <input
+                            id="senha"
+                            type="password"
+                            class="form-input"
+                            placeholder="••••••••"
+                            autocomplete="new-password"
+                            minlength="6"
+                            required
+                        >
+                        <!-- Indicador de força da senha -->
+                         <div class="senha-forca">
+                            <div id="senha-forca-barra" class="senha-forca-barra"></div>
+                         </div>
+                         <small id="senha-feedback" class="auth-help-text">Mínimo de 6 caracteres</small>
+                 </div>
+
+                 <!-- Confirmar Senha -->
+                  <div class="form-group">
+                        <label for="confimar-senha" class="form-label">Senha: </label>
+                        <input
+                            id="confimar-senha"
+                            type="password"
+                            class="form-input"
+                            placeholder="••••••••"
+                            autocomplete="new-password"
+                            minlength="6"
+                            required
+                        >
+                    </div>
+
+                    <!-- Botão de enviar -->
+                     <button id="btn-cadastrar" type="submit" class="auth-botao">
+                        Criar Conta
+                     </button>
+
+               </form>
+
+               <!-- Link para a página de Login -->
+                <div class="auth-link-alternativo">
+                    Já tem uma conta?
+                    <a href="login.html">Faça Login</a>
+                </div>
+
+         </div>
+     </div>
+
+    <!-- Importação dos arquivos JavaScript -->
+     <script src="../js/api.js"></script>
+     <script src="../js/utils.js"></script>
+
+    <!-- Script específico desta página -->
+     <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // Obtém referências aos elementos
+            const formulario = document.getElementById('form-cadastro');
+            const inputNome = document.getElementById('nome');
+            const inputEmail = document.getElementById('email');
+            const inputRa = document.getElementById('ra');
+            const selectCurso = document.getElementById('curso');
+            const selectCampus = document.getElementById('campus');
+            const selectTipo = document.getElementById('tipo-usuario');
+            const inputSenha = document.getElementById('senha');
+            const inputConfirmarSenha = document.getElementById('confirmar-senha');
+            const btnCadastrar = document.getElementById('btn-cadastrar');
+            const mensagemErro = document.getElementById('mensagem-erro');
+            const senhaForcaBarra = document.getElementById('senha-forca-barra');
+            const senhaFeedback = document.getElementById('senha-feedback');
+
+            /**
+             * Carrega a lista de cursos do servidor
+             * e preenche o select de cursos
+             */
+            async function carregarCursos() {
+                try {
+                    const cursos = await apiGet('/cursos');
+
+                    // Limpa e preenche o select
+                    selectCurso.innerHTML = '<option value="">Selecionar Curso: </option>';
+
+                    cursos.forEach(curso => {
+                        const option = document.createElement('option');
+                        option.value = curso.ID;
+                        option.textContent = curso.nome;
+                        selectCurso.appendChild(option);
+                    });
+                } catch (erro) {
+                    console.error('Erro ao carregar cursos:', erro);
+                }
+            }
+
+            /**
+             * Carrega a lista de campus do servidor
+             * e preenche o select de campus
+             */
+            async function carregarCampi() {
+                try {
+                    const campi = await apiGet('/campi');
+
+                    // Limpa e preenche o select
+                    selectCampus.innerHTML = '<option value="">Selecionar Campus: </option>';
+
+                    campi.forEach(campus => {
+                        const option = document.createElement('option');
+                        option.value = campus.ID;
+                        option.textContent = `${campus.nome} - ${campus.cidade}/${campus.uf}`;
+                        selectCampus.appendChild(option);
+                    });
+                } catch (erro) {
+                    console.error('Erro ao carregar campus:', erro);
+                }
+            }
+
+            /**
+             * Atualiza o indicador visual de força da senha
+             */
+            function atualizarForcaSenha() {
+                const senha = inputSenha.value;
+
+                if (!senha) {
+                    senhaForcaBarra.className = 'senha-forca-barra';
+                    senhaFeedback.textContent = 'Mínimo de 6 caracteres';
+                    return;
+                }
+
+                const resultado = validarSenha(senha);
+
+                // Remove classes anteriores e adiciona nova
+                senhaForcaBarra.className = `senha-forca-barra ${resultado.forca}`;
+                senhaFeedback.textContent = resultado.mensagem;
+            }
+
+            /**
+             * Esconde a mensagem de erro
+             */
+            function esconderErro() {
+                mensagemErro.classList.remove('ativo');
+                mensagemErro.textContent = '';
+            }
+
+            /**
+             * Exibe uma mensagem de erro
+             */
+            function exibirErro(mensagem) {
+                mensagemErro.textContent = mensagem;
+                mensagemErro.classList.add('ativo');
+
+                // Rola a página para o topo para mostrar o erro
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            /**
+             * Altera o estado de loading do botão
+             */
+            function setLoading(loading) {
+                if (loading) {
+                    btnCadastrar.disabled = true;
+                    btnCadastrar.classList.add('loading');
+                    btnCadastrar.textContent = '';
+                } else {
+                    btnCadastrar.disabled = false;
+                    btnCadastrar.classList.remove('loading');
+                    btnCadastrar.textContent = 'Criar Conta';
+                }
+            }
+
+            /**
+             * Valida todos os campos do formulário
+             * antes de enviar
+             */
+            function validarFormulario() {
+                const nome = inputNome.value.trim();
+                const email = inputEmail.value.trim();
+                const senha = inputSenha.value;
+                const confirmarSenha = inputConfirmarSenha.value;
+
+                // Valida nome
+                if (nome.length < 3) {
+                    exibirErro('O nome deve ter pelo menos 3 caracteres');
+                    return false;
+                }
+
+                // Valida email
+                if (!validarEmail(email)) {
+                    exibirErro('Por favor, digite um email válido');
+                    return false;
+                }
+
+                // Valida senha
+                const resultadoSenha = validarSenha(senha);
+                if (!resultadoSenha.valida) {
+                    exibirErro(resultadoSenha.mensagem);
+                    return false;
+                }
+
+                // Verifica se as senhas coincidem
+                if (senha !== confirmarSenha) {
+                    exibirErro('As senhas não coincidem');
+                    return false;
+                }
+
+                return true;
+            }
+
+            /**
+             * Função principal que processa o cadastro
+             */
+            async function processarCadastro(evento) {
+                evento.preventDefault();
+
+                esconderErro();
+
+                // Valida o formulário
+                if (!validarFormulario()) {
+                    return;
+                }
+
+                // Coleta os dados do formulário
+                const dados = {
+                    nome: inputNome.value.trim(),
+                    email: inputEmail.value.trim(),
+                    ra: inputRa.value.trim() || null,
+                    curso_id: selectCurso.value || null,
+                    campus_id: selectCampus.value || null,
+                    tipo_usuario: selectTipo.value,
+                    senha: inputSenha.value
+                };
+
+                setLoading(true);
+
+                try {
+                    // Envia os dados para o servidor
+                    const resultado = await apiPost('/usuarios', dados);
+
+                    // Mostra mensagem de sucesso
+                    alert('Cadastro realizado com sucesso! Faça login para continuar.');
+
+                    // Redireciona para a página de login
+                    window.location.href = 'login.html';
+
+                } catch (erro) {
+                    exibirErro(erro.message || 'Erro ao criar conta. Tente novamente.');
+                } finally {
+                    setLoading(false);
+                }
+            }
+
+            // Adiciona eventos
+            formulario.addEventListener('submit', processarCadastro);
+            inputSenha.addEventListener('input', atualizarForcaSenha);
+
+            // Esconde erro quando usuário digita
+            inputNome.addEventListener('input', esconderErro);
+            inputEmail.addEventListener('input', esconderErro);
+            inputSenha.addEventListener('input', esconderErro);
+            inputConfirmarSenha.addEventListener('input', esconderErro);
+
+            // Carrega dados iniciais
+            carregarCursos();
+            carregarCampi();
+
+            /**
+             * Se já houver usuário logado, redireciona
+             */
+            const usuarioLogado = obterSessao();
+            if (usuarioLogado) {
+                window.location.href = 'login.html';
+            }
+
+        });
+
+     </script>
+
+</body>
+</html>

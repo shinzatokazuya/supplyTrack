@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | EcoTrack</title>
+    <link rel="stylesheet" href="../../css/global.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">♻️</div>
+            <h2 class="sidebar-title">EcoTrack</h2>
+
+            <nav>
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="#" class="ativo">
+                            <span class="sidebar-menu-icon">📊</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="navegarPara('entregas')">
+                            <span class="sidebar-menu-icon">📦</span>
+                            <span>Minhas Entregas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="navegarPara('nova-entrega')">
+                            <span class="sidebar-menu-icon">➕</span>
+                            <span>Nova Entrega</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="navegarPara('recompensas')">
+                            <span class="sidebar-menu-icon">🎁</span>
+                            <span>Recompensas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="navegarPara('ranking')">
+                            <span class="sidebar-menu-icon">🏆</span>
+                            <span>Ranking</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="navegarPara('perfil')">
+                            <span class="sidebar-menu-icon">👤</span>
+                            <span>Meu Perfil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="fazerLogout()">
+                            <span class="sidebar-menu-icon">🚪</span>
+                            <span>Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="dashboard-welcome">
+                    <h1>Bem-vindo de volta!</h1>
+                    <p id="data-atual"></p>
+                </div>
+
+                <div class="dashboard-user">
+                    <div class="user-avatar" id="user-avatar"></div>
+                    <div class="user-info">
+                        <h3 id="user-name"></h3>
+                        <p id="user-type"></p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Cards de Estatísticas -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <p class="stat-card-title">Total de Pontos</p>
+                            <h2 class="stat-card-value" id="total-pontos">0</h2>
+                            <p class="stat-card-info">Acumulados até agora</p>
+                        </div>
+                        <div class="stat-card-icon verde">⭐</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <p class="stat-card-title">Total Reciclado</p>
+                            <h2 class="stat-card-value" id="total-kg">0 kg</h2>
+                            <p class="stat-card-info">Material entregue</p>
+                        </div>
+                        <div class="stat-card-icon azul">♻️</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <p class="stat-card-title">Entregas</p>
+                            <h2 class="stat-card-value" id="total-entregas">0</h2>
+                            <p class="stat-card-info">Realizadas</p>
+                        </div>
+                        <div class="stat-card-icon amarelo">📦</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <p class="stat-card-title">Medalhas</p>
+                            <h2 class="stat-card-value" id="total-medalhas">0</h2>
+                            <p class="stat-card-info">Conquistas</p>
+                        </div>
+                        <div class="stat-card-icon roxo">🏅</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botão de Nova Entrega -->
+            <div style="text-align: center; margin-bottom: var(--espacamento-xl);">
+                <button class="action-button" onclick="navegarPara('nova-entrega')">
+                    ➕ Agendar Nova Entrega
+                </button>
+            </div>
+
+            <!-- Últimas Entregas -->
+            <section class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">Últimas Entregas</h2>
+                    <a href="#" onclick="navegarPara('entregas')" class="btn btn-outline">Ver Todas</a>
+                </div>
+
+                <div id="entregas-container">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📦</div>
+                        <p>Carregando entregas...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Medalhas Conquistadas -->
+            <section class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">Minhas Medalhas</h2>
+                </div>
+
+                <div id="medalhas-container" class="medalhas-grid">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🏅</div>
+                        <p>Carregando medalhas...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../js/api.js"></script>
+    <script src="../../js/utils.js"></script>
+    <script>
+        let usuario = null;
+
+        // Verifica autenticação
+        document.addEventListener('DOMContentLoaded', async function() {
+            usuario = verificarAutenticacao();
+            if (!usuario || usuario.tipo_usuario !== 'estudante') {
+                alert('Acesso não autorizado');
+                fazerLogout();
+                return;
+            }
+
+            carregarDadosUsuario();
+            carregarEstatisticas();
+            carregarEntregas();
+            carregarMedalhas();
+        });
+
+        function carregarDadosUsuario() {
+            // Exibe dados do usuário
+            document.getElementById('user-name').textContent = usuario.nome;
+            document.getElementById('user-type').textContent = capitalizarPalavras(usuario.tipo_usuario);
+
+            // Avatar com inicial do nome
+            const inicial = usuario.nome.charAt(0).toUpperCase();
+            document.getElementById('user-avatar').textContent = inicial;
+
+            // Data atual
+            const hoje = new Date();
+            document.getElementById('data-atual').textContent = hoje.toLocaleDateString('pt-BR', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        async function carregarEstatisticas() {
+            try {
+                // Busca entregas do usuário
+                const entregas = await apiGet(`/entregas/usuario/${usuario.ID}`);
+
+                // Calcula estatísticas
+                let totalPontos = 0;
+                let totalKg = 0;
+                let totalValidadas = 0;
+
+                entregas.forEach(entrega => {
+                    if (entrega.status === 'validado') {
+                        totalPontos += entrega.pontos_recebidos || 0;
+                        totalValidadas++;
+                    }
+                    totalKg += entrega.peso_total || 0;
+                });
+
+                // Atualiza cards
+                document.getElementById('total-pontos').textContent = formatarNumero(totalPontos, 0);
+                document.getElementById('total-kg').textContent = formatarNumero(totalKg, 2) + ' kg';
+                document.getElementById('total-entregas').textContent = totalValidadas;
+
+            } catch (erro) {
+                console.error('Erro ao carregar estatísticas:', erro);
+            }
+        }
+
+        async function carregarEntregas() {
+            try {
+                const entregas = await apiGet(`/entregas/usuario/${usuario.ID}`);
+                const container = document.getElementById('entregas-container');
+
+                if (!entregas || entregas.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📦</div>
+                            <p>Você ainda não tem entregas registradas.</p>
+                            <button class="btn btn-primario mt-md" onclick="navegarPara('nova-entrega')">
+                                Fazer Primeira Entrega
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Mostra apenas as 5 últimas
+                const ultimasEntregas = entregas.slice(0, 5);
+
+                container.innerHTML = `
+                    <table class="entregas-table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Status</th>
+                                <th>Pontos</th>
+                                <th>Peso</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${ultimasEntregas.map(entrega => `
+                                <tr>
+                                    <td>${formatarData(entrega.criado_em)}</td>
+                                    <td><span class="badge ${entrega.status}">${entrega.status}</span></td>
+                                    <td>${entrega.pontos_recebidos || entrega.pontos_esperados || 0} pts</td>
+                                    <td>${formatarNumero(entrega.peso_total || 0, 2)} kg</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (erro) {
+                console.error('Erro ao carregar entregas:', erro);
+                document.getElementById('entregas-container').innerHTML = `
+                    <div class="empty-state">
+                        <p>Erro ao carregar entregas</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function carregarMedalhas() {
+            try {
+                const medalhas = await apiGet(`/usuario_medalhas/usuario/${usuario.ID}`);
+                const container = document.getElementById('medalhas-container');
+
+                if (!medalhas || medalhas.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1 / -1;">
+                            <div class="empty-state-icon">🏅</div>
+                            <p>Você ainda não conquistou medalhas. Continue reciclando!</p>
+                        </div>
+                    `;
+                    document.getElementById('total-medalhas').textContent = '0';
+                    return;
+                }
+
+                document.getElementById('total-medalhas').textContent = medalhas.length;
+
+                container.innerHTML = medalhas.map(medalha => `
+                    <div class="medalha-item">
+                        <div class="medalha-icon">${medalha.icone || '🏅'}</div>
+                        <div class="medalha-nome">${medalha.nome}</div>
+                        <div class="medalha-descricao">${medalha.descricao || ''}</div>
+                    </div>
+                `).join('');
+            } catch (erro) {
+                console.error('Erro ao carregar medalhas:', erro);
+            }
+        }
+
+        function navegarPara(pagina) {
+            alert(`Navegação para ${pagina} será implementada em breve!`);
+        }
+    </script>
+</body>
+</html>

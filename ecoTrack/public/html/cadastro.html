@@ -333,7 +333,7 @@
 
                 try {
                     // Envia os dados para o servidor
-                    const resultado = await apiPost('/usuarios', dados);
+                    const resultado = await fazerCadastro(dados);
 
                     // Mostra mensagem de sucesso
                     alert('Cadastro realizado com sucesso! Faça login para continuar.');

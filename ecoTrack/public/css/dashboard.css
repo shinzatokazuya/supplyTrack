@@ -1,0 +1,612 @@
+/**
+ * DASHBOARD.CSS - Estilos para Painéis de Controle
+ *
+ * Este arquivo contém todos os estilos compartilhados entre
+ * os diferentes dashboards (estudante, voluntário e admin)
+ */
+
+/* ========================================
+   LAYOUT PRINCIPAL
+   ======================================== */
+
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--cor-fundo);
+}
+
+/* ========================================
+   SIDEBAR (MENU LATERAL)
+   ======================================== */
+
+.sidebar {
+    width: 260px;
+    color: white;
+    padding: var(--espacamento-lg);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Gradientes específicos por tipo de usuário */
+.sidebar.estudante {
+    background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+}
+
+.sidebar.voluntario {
+    background: linear-gradient(180deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.sidebar.admin {
+    background: linear-gradient(180deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.sidebar-logo {
+    font-size: 32px;
+    text-align: center;
+    margin-bottom: var(--espacamento-xl);
+}
+
+.sidebar-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: var(--espacamento-xl);
+    color: white;
+}
+
+.sidebar-menu {
+    list-style: none;
+}
+
+.sidebar-menu li {
+    margin-bottom: var(--espacamento-sm);
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: var(--espacamento-md);
+    padding: var(--espacamento-md);
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    border-radius: var(--raio-medio);
+    transition: all var(--transicao-rapida);
+    font-weight: 500;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.ativo {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.sidebar-menu-icon {
+    font-size: 20px;
+}
+
+/* ========================================
+   CONTEÚDO PRINCIPAL
+   ======================================== */
+
+.main-content {
+    flex: 1;
+    padding: var(--espacamento-xl);
+    overflow-y: auto;
+}
+
+/* ========================================
+   HEADER DO DASHBOARD
+   ======================================== */
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--espacamento-xl);
+    padding-bottom: var(--espacamento-lg);
+    border-bottom: 2px solid var(--cor-borda);
+}
+
+.dashboard-welcome h1 {
+    color: var(--cor-texto-principal);
+    margin-bottom: var(--espacamento-xs);
+}
+
+.dashboard-welcome p {
+    color: var(--cor-texto-secundario);
+    margin: 0;
+}
+
+.dashboard-user {
+    display: flex;
+    align-items: center;
+    gap: var(--espacamento-md);
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.user-avatar.estudante {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.user-avatar.voluntario {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.user-avatar.admin {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.user-info h3 {
+    margin: 0;
+    font-size: 16px;
+    color: var(--cor-texto-principal);
+}
+
+.user-info p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--cor-texto-secundario);
+}
+
+/* ========================================
+   CARDS DE ESTATÍSTICAS
+   ======================================== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--espacamento-lg);
+    margin-bottom: var(--espacamento-xl);
+}
+
+.stat-card {
+    background: white;
+    padding: var(--espacamento-lg);
+    border-radius: var(--raio-grande);
+    box-shadow: var(--sombra-pequena);
+    transition: transform var(--transicao-normal);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sombra-media);
+}
+
+.stat-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--espacamento-md);
+}
+
+.stat-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--raio-medio);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+/* Cores dos ícones */
+.stat-card-icon.verde {
+    background-color: #d1fae5;
+}
+
+.stat-card-icon.azul {
+    background-color: #dbeafe;
+}
+
+.stat-card-icon.amarelo {
+    background-color: #fef3c7;
+}
+
+.stat-card-icon.roxo {
+    background-color: #ede9fe;
+}
+
+.stat-card-icon.vermelho {
+    background-color: #fee2e2;
+}
+
+.stat-card-icon.rosa {
+    background-color: #fce7f3;
+}
+
+.stat-card-title {
+    font-size: 14px;
+    color: var(--cor-texto-secundario);
+    margin-bottom: var(--espacamento-xs);
+}
+
+.stat-card-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--cor-texto-principal);
+    margin-bottom: var(--espacamento-xs);
+}
+
+.stat-card-info {
+    font-size: 13px;
+    color: var(--cor-texto-claro);
+}
+
+/* ========================================
+   SEÇÕES DO DASHBOARD
+   ======================================== */
+
+.dashboard-section {
+    background: white;
+    border-radius: var(--raio-grande);
+    padding: var(--espacamento-lg);
+    margin-bottom: var(--espacamento-lg);
+    box-shadow: var(--sombra-pequena);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--espacamento-lg);
+    padding-bottom: var(--espacamento-md);
+    border-bottom: 2px solid var(--cor-fundo);
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--cor-texto-principal);
+    margin: 0;
+}
+
+/* ========================================
+   BOTÃO DE AÇÃO PRINCIPAL
+   ======================================== */
+
+.action-button {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 16px 32px;
+    border: none;
+    border-radius: var(--raio-medio);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transicao-normal);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+/* ========================================
+   TABELAS
+   ======================================== */
+
+.entregas-table,
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.entregas-table thead,
+.users-table thead {
+    background-color: var(--cor-fundo);
+}
+
+.entregas-table th,
+.users-table th {
+    padding: var(--espacamento-md);
+    text-align: left;
+    font-weight: 600;
+    color: var(--cor-texto-secundario);
+    font-size: 14px;
+}
+
+.entregas-table td,
+.users-table td {
+    padding: var(--espacamento-md);
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.entregas-table tr:hover,
+.users-table tr:hover {
+    background-color: var(--cor-fundo);
+}
+
+/* ========================================
+   BADGES DE STATUS
+   ======================================== */
+
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: var(--raio-completo);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge.pendente {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.badge.validado {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.badge.rejeitado {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.badge.estudante {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.badge.voluntario {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.badge.admin {
+    background-color: #ede9fe;
+    color: #6b21a8;
+}
+
+/* ========================================
+   MEDALHAS
+   ======================================== */
+
+.medalhas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: var(--espacamento-md);
+}
+
+.medalha-item {
+    text-align: center;
+    padding: var(--espacamento-md);
+    border-radius: var(--raio-medio);
+    background-color: var(--cor-fundo);
+    transition: transform var(--transicao-rapida);
+}
+
+.medalha-item:hover {
+    transform: scale(1.05);
+}
+
+.medalha-icon {
+    font-size: 48px;
+    margin-bottom: var(--espacamento-sm);
+}
+
+.medalha-nome {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+    margin-bottom: var(--espacamento-xs);
+}
+
+.medalha-descricao {
+    font-size: 12px;
+    color: var(--cor-texto-secundario);
+}
+
+/* ========================================
+   CARDS DE ENTREGA
+   ======================================== */
+
+.entregas-pendentes-grid {
+    display: grid;
+    gap: var(--espacamento-md);
+}
+
+.entrega-card {
+    border: 2px solid var(--cor-borda);
+    border-radius: var(--raio-medio);
+    padding: var(--espacamento-md);
+    transition: all var(--transicao-rapida);
+}
+
+.entrega-card:hover {
+    border-color: var(--cor-primaria);
+    box-shadow: var(--sombra-media);
+}
+
+.entrega-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: var(--espacamento-md);
+}
+
+.entrega-card-usuario {
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+    margin-bottom: var(--espacamento-xs);
+}
+
+.entrega-card-data {
+    font-size: 14px;
+    color: var(--cor-texto-secundario);
+}
+
+.entrega-card-acoes {
+    display: flex;
+    gap: var(--espacamento-sm);
+}
+
+/* ========================================
+   AÇÕES RÁPIDAS (ADMIN)
+   ======================================== */
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--espacamento-md);
+}
+
+.quick-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espacamento-sm);
+    padding: var(--espacamento-lg);
+    background-color: var(--cor-fundo);
+    border: 2px solid var(--cor-borda);
+    border-radius: var(--raio-medio);
+    cursor: pointer;
+    transition: all var(--transicao-rapida);
+    text-align: center;
+}
+
+.quick-action-btn:hover {
+    border-color: var(--cor-acento);
+    background-color: white;
+    transform: translateY(-2px);
+}
+
+.quick-action-icon {
+    font-size: 32px;
+}
+
+.quick-action-text {
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+}
+
+/* ========================================
+   ESTADO VAZIO
+   ======================================== */
+
+.empty-state {
+    text-align: center;
+    padding: var(--espacamento-xl);
+    color: var(--cor-texto-secundario);
+}
+
+.empty-state-icon {
+    font-size: 64px;
+    margin-bottom: var(--espacamento-md);
+    opacity: 0.5;
+}
+
+/* ========================================
+   GRÁFICOS
+   ======================================== */
+
+.chart-container {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-fundo);
+    border-radius: var(--raio-medio);
+    color: var(--cor-texto-secundario);
+}
+
+/* ========================================
+   BOTÃO PEQUENO
+   ======================================== */
+
+.btn-small {
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: var(--raio-pequeno);
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .dashboard-layout {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: var(--espacamento-md);
+    }
+
+    .sidebar-menu a {
+        padding: var(--espacamento-sm);
+        font-size: 14px;
+    }
+
+    .main-content {
+        padding: var(--espacamento-md);
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--espacamento-md);
+    }
+
+    .entregas-table,
+    .users-table {
+        font-size: 14px;
+    }
+
+    .entregas-table th,
+    .entregas-table td,
+    .users-table th,
+    .users-table td {
+        padding: var(--espacamento-sm);
+    }
+
+    .quick-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .entrega-card-header {
+        flex-direction: column;
+        gap: var(--espacamento-md);
+    }
+
+    .entrega-card-acoes {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .entrega-card-acoes .btn {
+        flex: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .stat-card-value {
+        font-size: 24px;
+    }
+
+    .medalhas-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+
+    .action-button {
+        width: 100%;
+        padding: 14px 20px;
+    }
+}

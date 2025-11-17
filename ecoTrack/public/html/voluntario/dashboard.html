@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Voluntário | EcoTrack</title>
+    
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">♻️</div>
+            <h2 class="sidebar-title">EcoTrack</h2>
+
+            <nav>
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="#" class="ativo">
+                            <span class="sidebar-menu-icon">📊</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="navegarPara('validar')">
+                            <span class="sidebar-menu-icon">✅</span>
+                            <span>Validar Entregas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="navegarPara('historico')">
+                            <span class="sidebar-menu-icon">📋</span>
+                            <span>Histórico</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="navegarPara('relatorios')">
+                            <span class="sidebar-menu-icon">📈</span>
+                            <span>Relatórios</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="navegarPara('perfil')">
+                            <span class="sidebar-menu-icon">👤</span>
+                            <span>Meu Perfil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="fazerLogout()">
+                            <span class="sidebar-menu-icon">🚪</span>
+                            <span>Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="dashboard-welcome">
+                    <h1>Painel do Voluntário</h1>
+                    <p id="data-atual"></p>
+                </div>
+
+                <div class="dashboard-user">
+                    <div class="user-avatar" id="user-avatar"></div>
+                    <div class="user-info">
+                        <h3 id="user-name"></h3>
+                        <p id="user-type">Voluntário</p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Cards de Estatísticas -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <p class="stat-card-title">Entregas Pendentes</p>
+                            <h2 class="stat-card-value" id="total-pendentes">0</h2>
+                            <p class="stat-card-info">Aguardando validação</p>
+                        </div>
+                        <div class="stat-card-icon amarelo">⏳</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <p class="stat-card-title">Validadas Hoje</p>
+                            <h2 class="stat-card-value" id="validadas-hoje">0</h2>
+                            <p class="stat-card-info">Entregas processadas</p>
+                        </div>
+                        <div class="stat-card-icon verde">✅</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <p class="stat-card-title">Total Validadas</p>
+                            <h2 class="stat-card-value" id="total-validadas">0</h2>
+                            <p class="stat-card-info">Este mês</p>
+                        </div>
+                        <div class="stat-card-icon azul">📦</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <p class="stat-card-title">Rejeitadas</p>
+                            <h2 class="stat-card-value" id="total-rejeitadas">0</h2>
+                            <p class="stat-card-info">Este mês</p>
+                        </div>
+                        <div class="stat-card-icon vermelho">❌</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entregas Pendentes -->
+            <section class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">Entregas Pendentes de Validação</h2>
+                    <button class="btn btn-primario btn-small" onclick="carregarEntregasPendentes()">
+                        🔄 Atualizar
+                    </button>
+                </div>
+
+                <div id="entregas-pendentes-container">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📦</div>
+                        <p>Carregando entregas pendentes...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Atividades Recentes -->
+            <section class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">Atividades Recentes</h2>
+                </div>
+
+                <div id="atividades-container">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <p>Carregando atividades...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../js/api.js"></script>
+    <script src="../../js/utils.js"></script>
+    <script>
+        let usuario = null;
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            usuario = verificarAutenticacao();
+            if (!usuario || usuario.tipo_usuario !== 'voluntario') {
+                alert('Acesso não autorizado');
+                fazerLogout();
+                return;
+            }
+
+            carregarDadosUsuario();
+            carregarEstatisticas();
+            carregarEntregasPendentes();
+            carregarAtividades();
+        });
+
+        function carregarDadosUsuario() {
+            document.getElementById('user-name').textContent = usuario.nome;
+            const inicial = usuario.nome.charAt(0).toUpperCase();
+            document.getElementById('user-avatar').textContent = inicial;
+
+            const hoje = new Date();
+            document.getElementById('data-atual').textContent = hoje.toLocaleDateString('pt-BR', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        async function carregarEstatisticas() {
+            try {
+                const entregas = await apiGet('/entregas');
+
+                // Filtra pendentes
+                const pendentes = entregas.filter(e => e.status === 'pendente');
+                document.getElementById('total-pendentes').textContent = pendentes.length;
+
+                // Filtra validadas hoje
+                const hoje = new Date().toDateString();
+                const validadasHoje = entregas.filter(e =>
+                    e.status === 'validado' &&
+                    e.validado_por === usuario.ID &&
+                    new Date(e.validado_em).toDateString() === hoje
+                );
+                document.getElementById('validadas-hoje').textContent = validadasHoje.length;
+
+                // Total validadas este mês
+                const mesAtual = new Date().getMonth();
+                const anoAtual = new Date().getFullYear();
+                const validadasMes = entregas.filter(e => {
+                    if (e.status !== 'validado' || e.validado_por !== usuario.ID) return false;
+                    const data = new Date(e.validado_em);
+                    return data.getMonth() === mesAtual && data.getFullYear() === anoAtual;
+                });
+                document.getElementById('total-validadas').textContent = validadasMes.length;
+
+                // Total rejeitadas este mês
+                const rejeitadasMes = entregas.filter(e => {
+                    if (e.status !== 'rejeitado' || e.validado_por !== usuario.ID) return false;
+                    const data = new Date(e.validado_em);
+                    return data.getMonth() === mesAtual && data.getFullYear() === anoAtual;
+                });
+                document.getElementById('total-rejeitadas').textContent = rejeitadasMes.length;
+
+            } catch (erro) {
+                console.error('Erro ao carregar estatísticas:', erro);
+            }
+        }
+
+        async function carregarEntregasPendentes() {
+            try {
+                const entregas = await apiGet('/entregas');
+                const pendentes = entregas.filter(e => e.status === 'pendente');
+                const container = document.getElementById('entregas-pendentes-container');
+
+                if (pendentes.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">✅</div>
+                            <p>Não há entregas pendentes de validação no momento.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = `
+                    <div class="entregas-pendentes-grid">
+                        ${pendentes.map(entrega => `
+                            <div class="entrega-card">
+                                <div class="entrega-card-header">
+                                    <div>
+                                        <div class="entrega-card-usuario">
+                                            Entrega #${entrega.ID}
+                                        </div>
+                                        <div class="entrega-card-data">
+                                            ${formatarDataHora(entrega.criado_em)}
+                                        </div>
+                                        <div class="mt-sm">
+                                            <span class="badge pendente">Pendente</span>
+                                        </div>
+                                    </div>
+                                    <div class="entrega-card-acoes">
+                                        <button class="btn btn-primario btn-small" onclick="validarEntrega(${entrega.ID})">
+                                            ✅ Validar
+                                        </button>
+                                        <button class="btn btn-perigo btn-small" onclick="rejeitarEntrega(${entrega.ID})">
+                                            ❌ Rejeitar
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <strong>Pontos estimados:</strong> ${entrega.pontos_esperados || 0} pts<br>
+                                    ${entrega.avisos ? `<small style="color: var(--cor-alerta);">⚠️ ${entrega.avisos}</small>` : ''}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } catch (erro) {
+                console.error('Erro ao carregar entregas pendentes:', erro);
+            }
+        }
+
+        async function carregarAtividades() {
+            try {
+                const entregas = await apiGet('/entregas');
+                const minhasValidacoes = entregas
+                    .filter(e => e.validado_por === usuario.ID)
+                    .sort((a, b) => new Date(b.validado_em) - new Date(a.validado_em))
+                    .slice(0, 10);
+
+                const container = document.getElementById('atividades-container');
+
+                if (minhasValidacoes.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <p>Nenhuma atividade registrada ainda.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = `
+                    <div style="display: flex; flex-direction: column; gap: var(--espacamento-md);">
+                        ${minhasValidacoes.map(entrega => `
+                            <div style="padding: var(--espacamento-md); border-left: 4px solid ${
+                                entrega.status === 'validado' ? 'var(--cor-sucesso)' : 'var(--cor-perigo)'
+                            }; background-color: var(--cor-fundo); border-radius: var(--raio-pequeno);">
+                                <strong>${entrega.status === 'validado' ? '✅ Validou' : '❌ Rejeitou'}</strong>
+                                entrega #${entrega.ID}
+                                <br>
+                                <small style="color: var(--cor-texto-secundario);">
+                                    ${formatarDataHora(entrega.validado_em)}
+                                </small>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } catch (erro) {
+                console.error('Erro ao carregar atividades:', erro);
+            }
+        }
+
+        async function validarEntrega(id) {
+            if (!confirm('Tem certeza que deseja validar esta entrega?')) return;
+
+            try {
+                // Aqui você implementaria a lógica de validação
+                // Por enquanto, só mostra um alerta
+                alert('Funcionalidade de validação será implementada em breve!');
+                carregarEstatisticas();
+                carregarEntregasPendentes();
+                carregarAtividades();
+            } catch (erro) {
+                alert('Erro ao validar entrega: ' + erro.message);
+            }
+        }
+
+        async function rejeitarEntrega(id) {
+            const motivo = prompt('Digite o motivo da rejeição:');
+            if (!motivo) return;
+
+            try {
+                alert('Funcionalidade de rejeição será implementada em breve!');
+                carregarEstatisticas();
+                carregarEntregasPendentes();
+                carregarAtividades();
+            } catch (erro) {
+                alert('Erro ao rejeitar entrega: ' + erro.message);
+            }
+        }
+
+        function navegarPara(pagina) {
+            alert(`Navegação para ${pagina} será implementada em breve!`);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin | EcoTrack</title>
+
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">⚙️</div>
+            <h2 class="sidebar-title">Admin</h2>
+
+            <nav>
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="#" class="ativo">
+                            <span class="sidebar-menu-icon">📊</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="navegarPara('usuarios')">
+                            <span class="sidebar-menu-icon">👥</span>
+                            <span>Usuários</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="navegarPara('entregas')">
+                            <span class="sidebar-menu-icon">📦</span>
+                            <span>Entregas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="navegarPara('recompensas')">
+                            <span class="sidebar-menu-icon">🎁</span>
+                            <span>Recompensas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="navegarPara('medalhas')">
+                            <span class="sidebar-menu-icon">🏅</span>
+                            <span>Medalhas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="navegarPara('relatorios')">
+                            <span class="sidebar-menu-icon">📈</span>
+                            <span>Relatórios</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="navegarPara('configuracoes')">
+                            <span class="sidebar-menu-icon">⚙️</span>
+                            <span>Configurações</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="fazerLogout()">
+                            <span class="sidebar-menu-icon">🚪</span>
+                            <span>Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="dashboard-welcome">
+                    <h1>Painel Administrativo</h1>
+                    <p id="data-atual"></p>
+                </div>
+
+                <div class="dashboard-user">
+                    <div class="user-avatar" id="user-avatar"></div>
+                    <div class="user-info">
+                        <h3 id="user-name"></h3>
+                        <p id="user-type">Administrador</p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Cards de Estatísticas -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <p class="stat-card-title">Total de Usuários</p>
+                            <h2 class="stat-card-value" id="total-usuarios">0</h2>
+                            <p class="stat-card-info">Cadastrados</p>
+                        </div>
+                        <div class="stat-card-icon roxo">👥</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <p class="stat-card-title">Total de Entregas</p>
+                            <h2 class="stat-card-value" id="total-entregas">0</h2>
+                            <p class="stat-card-info">Todas as entregas</p>
+                        </div>
+                        <div class="stat-card-icon azul">📦</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <p class="stat-card-title">Material Reciclado</p>
+                            <h2 class="stat-card-value" id="total-kg">0 kg</h2>
+                            <p class="stat-card-info">Total geral</p>
+                        </div>
+                        <div class="stat-card-icon verde">♻️</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <p class="stat-card-title">Pendentes</p>
+                            <h2 class="stat-card-value" id="total-pendentes">0</h2>
+                            <p class="stat-card-info">Aguardando validação</p>
+                        </div>
+                        <div class="stat-card-icon amarelo">⏳</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-header">
+                        <div>
+                            <p class="stat-card-title">Recompensas</p>
+                            <h2 class="stat-card-value" id="total-recompensas">0</h2>
+                            <p class="stat-card-info">Disponíveis</p>
+                        </div>
+                        <div class="stat-card-icon rosa">🎁</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ações Rápidas -->
+            <section class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">Ações Rápidas</h2>
+                </div>
+
+                <div class="quick-actions">
+                    <div class="quick-action-btn" onclick="navegarPara('novo-usuario')">
+                        <div class="quick-action-icon">👤➕</div>
+                        <div class="quick-action-text">Novo Usuário</div>
+                    </div>
+
+                    <div class="quick-action-btn" onclick="navegarPara('nova-recompensa')">
+                        <div class="quick-action-icon">🎁➕</div>
+                        <div class="quick-action-text">Nova Recompensa</div>
+                    </div>
+
+                    <div class="quick-action-btn" onclick="navegarPara('nova-medalha')">
+                        <div class="quick-action-icon">🏅➕</div>
+                        <div class="quick-action-text">Nova Medalha</div>
+                    </div>
+
+                    <div class="quick-action-btn" onclick="navegarPara('relatorio')">
+                        <div class="quick-action-icon">📊</div>
+                        <div class="quick-action-text">Gerar Relatório</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gráfico de Entregas -->
+            <section class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">Entregas por Status</h2>
+                </div>
+
+                <div class="chart-container">
+                    <p>📊 Gráficos serão implementados em breve</p>
+                </div>
+            </section>
+
+            <!-- Usuários Recentes -->
+            <section class="dashboard-section">
+                <div class="section-header">
+                    <h2 class="section-title">Usuários Recentes</h2>
+                    <a href="#" onclick="navegarPara('usuarios')" class="btn btn-outline btn-small">Ver Todos</a>
+                </div>
+
+                <div id="usuarios-container">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">👥</div>
+                        <p>Carregando usuários...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../../js/api.js"></script>
+    <script src="../../js/utils.js"></script>
+    <script>
+        let usuario = null;
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            usuario = verificarAutenticacao();
+            if (!usuario || usuario.tipo_usuario !== 'admin') {
+                alert('Acesso não autorizado');
+                fazerLogout();
+                return;
+            }
+
+            carregarDadosUsuario();
+            carregarEstatisticas();
+            carregarUsuariosRecentes();
+        });
+
+        function carregarDadosUsuario() {
+            document.getElementById('user-name').textContent = usuario.nome;
+            const inicial = usuario.nome.charAt(0).toUpperCase();
+            document.getElementById('user-avatar').textContent = inicial;
+
+            const hoje = new Date();
+            document.getElementById('data-atual').textContent = hoje.toLocaleDateString('pt-BR', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        async function carregarEstatisticas() {
+            try {
+                // Carrega usuários
+                const usuarios = await apiGet('/usuarios');
+                document.getElementById('total-usuarios').textContent = usuarios.length;
+
+                // Carrega entregas
+                const entregas = await apiGet('/entregas');
+                document.getElementById('total-entregas').textContent = entregas.length;
+
+                // Calcula total reciclado
+                let totalKg = 0;
+                entregas.forEach(entrega => {
+                    totalKg += entrega.peso_total || 0;
+                });
+                document.getElementById('total-kg').textContent = formatarNumero(totalKg, 2) + ' kg';
+
+                // Conta pendentes
+                const pendentes = entregas.filter(e => e.status === 'pendente');
+                document.getElementById('total-pendentes').textContent = pendentes.length;
+
+                // Carrega recompensas
+                const recompensas = await apiGet('/recompensas');
+                document.getElementById('total-recompensas').textContent = recompensas.length;
+
+            } catch (erro) {
+                console.error('Erro ao carregar estatísticas:', erro);
+            }
+        }
+
+        async function carregarUsuariosRecentes() {
+            try {
+                const usuarios = await apiGet('/usuarios');
+                const usuariosRecentes = usuarios
+                    .sort((a, b) => new Date(b.criado_em) - new Date(a.criado_em))
+                    .slice(0, 10);
+
+                const container = document.getElementById('usuarios-container');
+
+                if (usuariosRecentes.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">👥</div>
+                            <p>Nenhum usuário cadastrado ainda.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = `
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Tipo</th>
+                                <th>Cadastro</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${usuariosRecentes.map(u => `
+                                <tr>
+                                    <td><strong>${u.nome}</strong></td>
+                                    <td>${u.email}</td>
+                                    <td><span class="badge ${u.tipo_usuario}">${capitalizarPalavras(u.tipo_usuario)}</span></td>
+                                    <td>${formatarData(u.criado_em)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (erro) {
+                console.error('Erro ao carregar usuários:', erro);
+            }
+        }
+
+        function navegarPara(pagina) {
+            alert(`Navegação para ${pagina} será implementada em breve!`);
+        }
+    </script>
+</body>
+</html>

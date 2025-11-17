@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Entrega | EcoTrack</title>
+
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar estudante">
+            <div class="sidebar-logo">♻️</div>
+            <h2 class="sidebar-title">EcoTrack</h2>
+
+            <nav>
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="dashboard.html">
+                            <span class="sidebar-menu-icon">📊</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="entregas.html">
+                            <span class="sidebar-menu-icon">📦</span>
+                            <span>Minhas Entregas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="nova-entrega.html" class="ativo">
+                            <span class="sidebar-menu-icon">➕</span>
+                            <span>Nova Entrega</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="recompensas.html">
+                            <span class="sidebar-menu-icon">🎁</span>
+                            <span>Recompensas</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="ranking.html">
+                            <span class="sidebar-menu-icon">🏆</span>
+                            <span>Ranking</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="perfil.html">
+                            <span class="sidebar-menu-icon">👤</span>
+                            <span>Meu Perfil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="fazerLogout()">
+                            <span class="sidebar-menu-icon">🚪</span>
+                            <span>Sair</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="dashboard-welcome">
+                    <h1>Agendar Nova Entrega</h1>
+                    <p>Informe os materiais que você deseja reciclar</p>
+                </div>
+
+                <div class="dashboard-user">
+                    <div class="user-avatar estudante" id="user-avatar"></div>
+                    <div class="user-info">
+                        <h3 id="user-name"></h3>
+                        <p>Estudante</p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Formulário de Nova Entrega -->
+            <div class="dashboard-section">
+                <!-- Mensagens de Feedback -->
+                <div id="mensagem-erro" class="alerta alerta-erro hidden"></div>
+                <div id="mensagem-sucesso" class="alerta alerta-sucesso hidden"></div>
+
+                <form id="form-nova-entrega">
+                    <!-- Instruções -->
+                    <div style="background-color: #dbeafe; padding: var(--espacamento-md); border-radius: var(--raio-medio); margin-bottom: var(--espacamento-lg); border-left: 4px solid #3b82f6;">
+                        <strong>📋 Como funciona:</strong>
+                        <ol style="margin: var(--espacamento-sm) 0 0 var(--espacamento-lg); padding: 0;">
+                            <li>Selecione os tipos de resíduos que você vai entregar</li>
+                            <li>Informe o peso estimado de cada material</li>
+                            <li>Adicione observações se necessário</li>
+                            <li>Envie sua solicitação e aguarde a validação</li>
+                        </ol>
+                    </div>
+
+                    <!-- Lista de Resíduos Disponíveis -->
+                    <div id="tipos-residuos-container" class="mb-lg">
+                        <h3 class="mb-md">Tipos de Resíduos Disponíveis</h3>
+                        <div id="residuos-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--espacamento-md);">
+                            <!-- Cards de resíduos serão inseridos aqui via JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Itens Selecionados -->
+                    <div id="itens-selecionados-container" class="hidden mb-lg">
+                        <h3 class="mb-md">Materiais Selecionados</h3>
+                        <div id="itens-lista" style="display: flex; flex-direction: column; gap: var(--espacamento-md);">
+                            <!-- Itens selecionados serão listados aqui -->
+                        </div>
+                    </div>
+
+                    <!-- Resumo da Entrega -->
+                    <div id="resumo-container" class="hidden mb-lg">
+                        <div style="background-color: #d1fae5; padding: var(--espacamento-lg); border-radius: var(--raio-medio); border-left: 4px solid #10b981;">
+                            <h3 style="margin-top: 0;">📊 Resumo da Entrega</h3>
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--espacamento-md);">
+                                <div>
+                                    <p style="margin: 0; color: var(--cor-texto-secundario); font-size: 14px;">Total de Itens</p>
+                                    <p style="margin: 0; font-size: 24px; font-weight: 700;" id="resumo-itens">0</p>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; color: var(--cor-texto-secundario); font-size: 14px;">Peso Total Estimado</p>
+                                    <p style="margin: 0; font-size: 24px; font-weight: 700;" id="resumo-peso">0 kg</p>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; color: var(--cor-texto-secundario); font-size: 14px;">Pontos Esperados</p>
+                                    <p style="margin: 0; font-size: 24px; font-weight: 700; color: #10b981;" id="resumo-pontos">0 pts</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Observações Adicionais -->
+                    <div class="form-group mb-lg">
+                        <label for="observacoes" class="form-label">Observações (Opcional)</label>
+                        <textarea
+                            id="observacoes"
+                            class="form-textarea"
+                            placeholder="Adicione informações extras sobre sua entrega..."
+                            rows="4"
+                        ></textarea>
+                    </div>
+
+                    <!-- Botões -->
+                    <div style="display: flex; gap: var(--espacamento-md); justify-content: flex-end;">
+                        <button type="button" class="btn btn-outline" onclick="window.location.href='dashboard.html'">
+                            Cancelar
+                        </button>
+                        <button type="submit" id="btn-enviar" class="btn btn-primario">
+                            ✅ Agendar Entrega
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="../../js/api.js"></script>
+    <script src="../../js/utils.js"></script>
+    <script>
+        let usuario = null;
+        let tiposResiduos = [];
+        let itensSelecionados = [];
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Verifica autenticação
+            usuario = verificarAutenticacao();
+            if (!usuario || usuario.tipo_usuario !== 'estudante') {
+                alert('Acesso não autorizado');
+                fazerLogout();
+                return;
+            }
+
+            carregarDadosUsuario();
+            await carregarTiposResiduos();
+        });
+
+        function carregarDadosUsuario() {
+            document.getElementById('user-name').textContent = usuario.nome;
+            const inicial = usuario.nome.charAt(0).toUpperCase();
+            document.getElementById('user-avatar').textContent = inicial;
+        }
+
+        async function carregarTiposResiduos() {
+            try {
+                tiposResiduos = await apiGet('/tipos_residuos');
+                renderizarTiposResiduos();
+            } catch (erro) {
+                exibirErro('Erro ao carregar tipos de resíduos: ' + erro.message);
+            }
+        }
+
+        function renderizarTiposResiduos() {
+            const container = document.getElementById('residuos-grid');
+
+            container.innerHTML = tiposResiduos.map(residuo => `
+                <div class="card" style="border: 2px solid ${residuo.cor || '#e5e7eb'}; position: relative;">
+                    <div style="position: absolute; top: 10px; right: 10px; width: 20px; height: 20px; background-color: ${residuo.cor || '#ccc'}; border-radius: 50%;"></div>
+
+                    <h4 style="margin-top: 0; color: var(--cor-texto-principal);">${residuo.nome}</h4>
+                    <p style="font-size: 14px; color: var(--cor-texto-secundario); margin-bottom: var(--espacamento-md);">
+                        ${residuo.descricao || 'Sem descrição'}
+                    </p>
+
+                    <div style="background-color: var(--cor-fundo); padding: var(--espacamento-sm); border-radius: var(--raio-pequeno); margin-bottom: var(--espacamento-md);">
+                        <strong style="color: #10b981; font-size: 18px;">${residuo.pontos} pontos</strong>
+                        <span style="font-size: 14px; color: var(--cor-texto-secundario);"> por kg</span>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn btn-primario"
+                        style="width: 100%;"
+                        onclick="adicionarResiduo(${residuo.ID})"
+                    >
+                        ➕ Adicionar
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function adicionarResiduo(residuoId) {
+            const residuo = tiposResiduos.find(r => r.ID === residuoId);
+            if (!residuo) return;
+
+            // Verifica se já foi adicionado
+            const jaAdicionado = itensSelecionados.find(item => item.tipo_residuo_id === residuoId);
+            if (jaAdicionado) {
+                exibirErro('Este tipo de resíduo já foi adicionado!');
+                return;
+            }
+
+            // Adiciona à lista
+            itensSelecionados.push({
+                tipo_residuo_id: residuoId,
+                nome: residuo.nome,
+                cor: residuo.cor,
+                pontos: residuo.pontos,
+                peso_estimado: 0
+            });
+
+            atualizarListaItens();
+            atualizarResumo();
+        }
+
+        function atualizarListaItens() {
+            const container = document.getElementById('itens-selecionados-container');
+            const lista = document.getElementById('itens-lista');
+
+            if (itensSelecionados.length === 0) {
+                container.classList.add('hidden');
+                return;
+            }
+
+            container.classList.remove('hidden');
+
+            lista.innerHTML = itensSelecionados.map((item, index) => `
+                <div style="display: flex; align-items: center; gap: var(--espacamento-md); padding: var(--espacamento-md); background-color: var(--cor-fundo); border-radius: var(--raio-medio); border-left: 4px solid ${item.cor};">
+                    <div style="flex: 1;">
+                        <strong>${item.nome}</strong>
+                        <p style="margin: 0; font-size: 14px; color: var(--cor-texto-secundario);">
+                            ${item.pontos} pontos por kg
+                        </p>
+                    </div>
+
+                    <div style="flex: 0 0 200px;">
+                        <label style="display: block; font-size: 12px; color: var(--cor-texto-secundario); margin-bottom: 4px;">
+                            Peso Estimado (kg)
+                        </label>
+                        <input
+                            type="number"
+                            class="form-input"
+                            style="padding: 8px;"
+                            min="0.1"
+                            step="0.1"
+                            value="${item.peso_estimado}"
+                            onchange="atualizarPeso(${index}, this.value)"
+                            placeholder="0.0"
+                        >
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn btn-perigo"
+                        onclick="removerItem(${index})"
+                    >
+                        🗑️
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function atualizarPeso(index, novoPeso) {
+            itensSelecionados[index].peso_estimado = parseFloat(novoPeso) || 0;
+            atualizarResumo();
+        }
+
+        function removerItem(index) {
+            itensSelecionados.splice(index, 1);
+            atualizarListaItens();
+            atualizarResumo();
+        }
+
+        function atualizarResumo() {
+            const container = document.getElementById('resumo-container');
+
+            if (itensSelecionados.length === 0) {
+                container.classList.add('hidden');
+                return;
+            }
+
+            container.classList.remove('hidden');
+
+            const totalItens = itensSelecionados.length;
+            const pesoTotal = itensSelecionados.reduce((sum, item) => sum + (item.peso_estimado || 0), 0);
+            const pontosEsperados = itensSelecionados.reduce((sum, item) =>
+                sum + ((item.peso_estimado || 0) * item.pontos), 0
+            );
+
+            document.getElementById('resumo-itens').textContent = totalItens;
+            document.getElementById('resumo-peso').textContent = formatarNumero(pesoTotal, 2) + ' kg';
+            document.getElementById('resumo-pontos').textContent = formatarNumero(pontosEsperados, 0) + ' pts';
+        }
+
+        // Submissão do formulário
+        document.getElementById('form-nova-entrega').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            esconderMensagens();
+
+            // Validações
+            if (itensSelecionados.length === 0) {
+                exibirErro('Adicione pelo menos um tipo de resíduo à entrega');
+                return;
+            }
+
+            const temPesoZero = itensSelecionados.some(item => !item.peso_estimado || item.peso_estimado <= 0);
+            if (temPesoZero) {
+                exibirErro('Todos os itens devem ter um peso estimado maior que zero');
+                return;
+            }
+
+            // Prepara dados para envio
+            const pesoTotal = itensSelecionados.reduce((sum, item) => sum + item.peso_estimado, 0);
+            const pontosEsperados = itensSelecionados.reduce((sum, item) =>
+                sum + (item.peso_estimado * item.pontos), 0
+            );
+
+            const dadosEntrega = {
+                usuario_id: usuario.ID,
+                status: 'pendente',
+                avisos: document.getElementById('observacoes').value.trim() || null,
+                pontos_esperados: pontosEsperados,
+                itens: itensSelecionados.map(item => ({
+                    tipo_residuo_id: item.tipo_residuo_id,
+                    peso_estimado: item.peso_estimado
+                }))
+            };
+
+            try {
+                setLoading(true);
+
+                // Envia entrega
+                const resultado = await apiPost('/entregas', dadosEntrega);
+
+                exibirSucesso('Entrega agendada com sucesso! Aguarde a validação do voluntário.');
+
+                // Limpa formulário
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 2000);
+
+            } catch (erro) {
+                exibirErro('Erro ao agendar entrega: ' + erro.message);
+            } finally {
+                setLoading(false);
+            }
+        });
+
+        function setLoading(loading) {
+            const btn = document.getElementById('btn-enviar');
+            btn.disabled = loading;
+            btn.textContent = loading ? '⏳ Enviando...' : '✅ Agendar Entrega';
+        }
+
+        function esconderMensagens() {
+            document.getElementById('mensagem-erro').classList.add('hidden');
+            document.getElementById('mensagem-sucesso').classList.add('hidden');
+        }
+
+        function exibirErro(mensagem) {
+            const elemento = document.getElementById('mensagem-erro');
+            elemento.textContent = mensagem;
+            elemento.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function exibirSucesso(mensagem) {
+            const elemento = document.getElementById('mensagem-sucesso');
+            elemento.textContent = mensagem;
+            elemento.classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

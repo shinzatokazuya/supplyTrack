@@ -293,7 +293,7 @@ async function inicializarBancoDeDados() {
         }
 
         console.log('\n✨ Banco de dados inicializado com sucesso!');
-        console.log('📍 Localização: backend/db/ecoTrackTeste.db');
+        console.log('📍 Localização: backend/db/ecoTrack.db');
         console.log('\n🚀 Agora você pode iniciar o servidor com: npm start');
 
     } catch (erro) {
